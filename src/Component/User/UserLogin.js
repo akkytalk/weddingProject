@@ -122,7 +122,7 @@ const UserLogin = (props) => {
                                 )}
                             </Formik>
                         </form> */}
-                        <form className="form form-login">
+                        {/* <form className="form form-login">
                             <fieldset>
                                 <legend>Please, enter your email and password for login.</legend>
                                 <div className="input-block">
@@ -135,7 +135,7 @@ const UserLogin = (props) => {
                                 </div>
                             </fieldset>
                             <button type="submit" className="btn-login">Login</button>
-                        </form>
+                        </form> */}
                     </div>
                     <div className="form-wrapper">
                         <button type="button" className="switcher switcher-signup">

@@ -1,28 +1,28 @@
-import React, { Fragment } from 'react'
-import { HashRouter, Router, Route, Switch } from 'react-router-dom'
-import About from './Component/About/About'
-import Home from './Component/Home/Home'
-import Contact from './Component/Contact/Contact'
-import Form from './Component/Vendor/Form'
-import Dashboard from './Component/Vendor/Dashboard/Dashboard'
-import Listing from './Component/Vendor/Dashboard/Listing'
-import Cat from './Component/Vendor/Catergory/Cat'
-import Cat2 from './Component/Vendor/Catergory/Cat2'
-import SamplePage from './Samplepage'
-import Photo from './Component/VendorPage/Photo'
-import Florist from './Component/VendorPage/Flower'
-import Cakes from './Component/VendorPage/Cakes'
-import WeddingDress from './Component/VendorPage/WeddingDress'
-import Dj from './Component/VendorPage/dj/Dj'
-import Food from './Component/VendorPage/Food'
-import MakeUp from './Component/VendorPage/Makeup'
-import WeddingPlan from './Component/VendorPage/WeddingPlan'
-import Jewellery from './Component/VendorPage/Jewllery'
-import Pandit from './Component/VendorPage/Pandit'
-import Mendhi from './Component/VendorPage/Mendhi'
-import Category from './Component/Home/Category'
-import Gallery from './Component/Gallery/Gallery'
-import UserLogin from './Component/User/UserLogin'
+import React, { Fragment } from "react";
+import { HashRouter, Route, Switch } from "react-router-dom";
+import About from "./Component/About/About";
+import Home from "./Component/Home/Home";
+import Contact from "./Component/Contact/Contact";
+import Form from "./Component/Vendor/Form";
+import Dashboard from "./Component/Vendor/Dashboard/Dashboard";
+import Listing from "./Component/Vendor/Dashboard/Listing";
+import Cat from "./Component/Vendor/Catergory/Cat";
+import Cat2 from "./Component/Vendor/Catergory/Cat2";
+import SamplePage from "./Samplepage";
+import Photo from "./Component/VendorPage/Photo";
+import Florist from "./Component/VendorPage/Flower";
+import Cakes from "./Component/VendorPage/Cakes";
+import WeddingDress from "./Component/VendorPage/WeddingDress";
+import Dj from "./Component/VendorPage/dj/Dj";
+import Food from "./Component/VendorPage/Food";
+import MakeUp from "./Component/VendorPage/Makeup";
+import WeddingPlan from "./Component/VendorPage/WeddingPlan";
+import Jewellery from "./Component/VendorPage/Jewllery";
+import Pandit from "./Component/VendorPage/Pandit";
+import Mendhi from "./Component/VendorPage/Mendhi";
+import Category from "./Component/Home/Category";
+import Gallery from "./Component/Gallery/Gallery";
+import UserLogin from "./Component/User/UserLogin";
 
 import { configureStore } from "./reduxStore/ConfigureStore";
 import { Provider } from "react-redux";
@@ -36,7 +36,6 @@ const App = () => {
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <HashRouter>
-
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/aboutus" component={About} />
@@ -63,12 +62,11 @@ const App = () => {
 
               <Route path="/cat" component={Category} />
             </Switch>
-
           </HashRouter>
         </PersistGate>
       </Provider>
     </Fragment>
-  )
-}
+  );
+};
 
-export default App
+export default App;

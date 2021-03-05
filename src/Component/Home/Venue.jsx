@@ -1,6 +1,19 @@
-import React, { Fragment } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-const Venue = () => {
+import * as actions from "../../reduxStore/actions/index";
+const Venue = (props) => {
+  useEffect(() => {
+    props.onVendorGetData();
+    props.onVendortypeGetData();
+    console.log("vendor data", props.vendor);
+    console.log("vendor type data", props.vendortype);
+  }, []);
+
+  const [viewCount, setViewCount] = useState(6);
+
   return (
     <Fragment>
       <div className="space-medium bg-white">
@@ -20,7 +33,40 @@ const Venue = () => {
           </div>
           <div className="row">
             {/* venue-categoris-block*/}
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+
+            {props.vendortype.slice(0, viewCount).map((ven) => (
+              <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                <div className="vendor-categories-block zoomimg">
+                  <div className="vendor-categories-img">
+                    {" "}
+                    <a href={`/${ven.name}`}>
+                      <img
+                        src={`https://source.unsplash.com/1600x900/?${ven.name}`}
+                        alt=""
+                        className="img-fluid"
+                      />
+                    </a>
+                  </div>
+                  <div className="vendor-categories-overlay">
+                    <div className="vendor-categories-text">
+                      <h4 className="mb0">
+                        <a
+                          href={`/${ven.name}`}
+                          className="vendor-categories-title"
+                        >
+                          {ven.name}
+                        </a>
+                      </h4>
+                      <p className="vendor-categories-numbers">
+                        {ven.name.length}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* /.venue-categoris-block*/}
+              </div>
+            ))}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -43,9 +89,9 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            </div> */}
+            {/* /.venue-categoris-block*/}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -68,9 +114,9 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            </div> */}
+            {/* /.venue-categoris-block*/}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -93,9 +139,9 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            </div> */}
+            {/* /.venue-categoris-block*/}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -118,9 +164,9 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            </div> */}
+            {/* /.venue-categoris-block*/}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -143,9 +189,9 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            </div> */}
+            {/* /.venue-categoris-block*/}
+            {/* <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
               <div className="vendor-categories-block zoomimg">
                 <div className="vendor-categories-img">
                   {" "}
@@ -168,8 +214,8 @@ const Venue = () => {
                   </div>
                 </div>
               </div>
-              {/* /.venue-categoris-block*/}
-            </div>
+            </div> */}
+            {/* /.venue-categoris-block*/}
           </div>
           {/* venue-categoris-btn */}
           <div className="row">
@@ -520,4 +566,18 @@ const Venue = () => {
   );
 };
 
-export default Venue;
+const mapStateToProps = (state) => {
+  return {
+    vendor: state.vendor.vendor,
+    vendortype: state.vendortype.vendortype,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onVendorGetData: () => dispatch(actions.vendorGetData()),
+    onVendortypeGetData: () => dispatch(actions.vendortypeGetData()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Venue);

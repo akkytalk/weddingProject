@@ -3,8 +3,9 @@ import { persistStore, persistCombineReducers } from "redux-persist";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import storage from "redux-persist/lib/storage";
-import Login from "./reducers/login"
-
+import Login from "./reducers/login";
+import RVendor from "./reducers/RVendor";
+import RVendortype from "./reducers/RVendortype";
 
 const config = {
   key: "root",
@@ -16,7 +17,8 @@ export const configureStore = () => {
   const store = createStore(
     persistCombineReducers(config, {
       login: Login,
-
+      vendor: RVendor,
+      vendortype: RVendortype,
     }),
     applyMiddleware(thunk, logger)
   );

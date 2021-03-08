@@ -47,7 +47,6 @@ const App = () => {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/vendorlist" component={Listing} />
               <Route path="/gallery" component={Gallery} />
-              <Route path="/category" component={Cat2} />
               <Route path="/photos" component={Photo} />
               <Route path="/florist" component={Florist} />
               <Route path="/cakes" component={Cakes} />
@@ -61,6 +60,8 @@ const App = () => {
               <Route path="/mendhi" component={Mendhi} />
 
               <Route path="/cat" component={Category} />
+              <Route path="/category" exact component={Cat2} />
+              <Route path="/category/:id" component={Cat2} />
             </Switch>
           </HashRouter>
         </PersistGate>

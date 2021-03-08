@@ -1,8 +1,14 @@
-//LOGIN
+//User LOGIN
 export const ADD_LOGIN = "ADD_LOGIN";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const REMOVE_LOGIN = "REMOVE_LOGIN";
+
+//Vendor LOGIN
+export const ADD_VENDOR_LOGIN = "ADD_VENDOR_LOGIN";
+export const VENDOR_LOGIN_LOADING = "VENDOR_LOGIN_LOADING";
+export const VENDOR_LOGIN_FAILED = "VENDOR_LOGIN_FAILED";
+export const REMOVE_VENDOR_LOGIN = "REMOVE_VENDOR_LOGIN";
 
 // VENDOR actionsTypes
 

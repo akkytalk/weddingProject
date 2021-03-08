@@ -12,7 +12,7 @@ const Venue = (props) => {
     console.log("vendor type data", props.vendortype);
   }, []);
 
-  const [viewCount, setViewCount] = useState(6);
+  const [viewCount] = useState(6);
 
   return (
     <Fragment>
@@ -39,23 +39,24 @@ const Venue = (props) => {
                 <div className="vendor-categories-block zoomimg">
                   <div className="vendor-categories-img">
                     {" "}
-                    <a href={`/${ven.name}`}>
+                    <Link to={`category/${ven.id}`}>
                       <img
-                        src={`https://source.unsplash.com/1600x900/?${ven.name}`}
+                        src={ven.image_url}
+                        // src={`https://source.unsplash.com/1600x900/?${ven.name}`}
                         alt=""
                         className="img-fluid"
                       />
-                    </a>
+                    </Link>
                   </div>
                   <div className="vendor-categories-overlay">
                     <div className="vendor-categories-text">
                       <h4 className="mb0">
-                        <a
-                          href={`/${ven.name}`}
+                        <Link
+                          href={`category/${ven.id}`}
                           className="vendor-categories-title"
                         >
                           {ven.name}
-                        </a>
+                        </Link>
                       </h4>
                       <p className="vendor-categories-numbers">
                         {ven.name.length}

@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 import Login from "./reducers/login";
 import RVendor from "./reducers/RVendor";
 import RVendortype from "./reducers/RVendortype";
+import VendorLogin from "./reducers/VendorLogin";
 
 const config = {
   key: "root",
@@ -17,6 +18,7 @@ export const configureStore = () => {
   const store = createStore(
     persistCombineReducers(config, {
       login: Login,
+      vendorLogin: VendorLogin,
       vendor: RVendor,
       vendortype: RVendortype,
     }),

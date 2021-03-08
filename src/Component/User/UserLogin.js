@@ -3,29 +3,20 @@ import React, { Fragment, useEffect } from "react";
 import * as actions from "../../reduxStore/actions";
 import { connect } from "react-redux";
 // import { Redirect } from "react-router-dom";
-// import { Formik, Form, Field } from "formik";
-// import FA from "react-fontawesome";
-// import {
-//   Card,
-//   Button,
-//   FormGroup,
-//   InputGroup,
-//   InputGroupAddon,
-//   InputGroupText,
-//   CardBody,
-//   CustomInput,
-// } from "reactstrap";
+import { Formik, Form, Field } from "formik";
+
+import { FormGroup, InputGroup, InputGroupAddon } from "reactstrap";
 
 const UserLogin = (props) => {
-  const [user, setUser] = React.useState({
-    email: "",
-    password: "",
-  });
+  // const [user, setUser] = React.useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setUser({ ...user, [name]: value });
+  // };
 
   useEffect(() => {
     const switchers = [...document.querySelectorAll(".switcher")];
@@ -42,12 +33,27 @@ const UserLogin = (props) => {
 
   const handleSubmit = (values, setSubmitting) => {
     let data = {
-      email: user.email,
-      password: user.password,
+      email: values.email,
+      password: values.password,
     };
     console.log(data);
     props.postLogin(data);
-    //setSubmitting(false);
+    setSubmitting(false);
+    return;
+  };
+
+  const SignuphandleSubmit = (values, setSubmitting) => {
+    let data = {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      mobile: values.mobile,
+      password: values.password,
+      password_confirmation: values.password_confirmation,
+    };
+    console.log(data);
+    props.postSignup(data);
+    setSubmitting(false);
     return;
   };
 
@@ -66,140 +72,170 @@ const UserLogin = (props) => {
               Login
               <span className="underline" />
             </button>
-            {/* <form className="form form-login">
-                            <Formik
-                                initialValues={{
-                                    email: "",
-                                    password: "",
-                                }}
-                                onSubmit={handleSubmit}
-                            >
-                                {(formProps) => (
-                                    <Form className="p-4">
-                                        <FormGroup>
-                                            <InputGroup size="lg">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <FA name={"user-circle"} />
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Field
-                                                    component={CustomInput}
-                                                    type="email"
-                                                    name="email"
-                                                    id="email"
-                                                    placeholder="Enter Email"
-                                                />
-                                            </InputGroup>
-                                        </FormGroup>
 
-                                        <FormGroup>
-                                            <InputGroup size="lg">
-                                                <InputGroupAddon addonType="prepend">
-                                                    <InputGroupText>
-                                                        <FA name={"unlock-alt"} />
-                                                    </InputGroupText>
-                                                </InputGroupAddon>
-                                                <Field
-                                                    component={CustomInput}
-                                                    type="password"
-                                                    name="password"
-                                                    id="password"
-                                                    placeholder="Enter Password"
-                                                />
-                                            </InputGroup>
-                                        </FormGroup>
-
-                                        <FormGroup>
-                                            <Button
-                                                color="primary"
-                                                type="submit"
-                                                size="lg"
-                                                block
-                                                disabled={formProps.isSubmitting}
-                                            >
-                                                Log In
-                  </Button>
-                                            <span className="text-danger pt-3 text-center">
-                                                {props.login?.errMess
-                                                    ? props.login?.errMess?.message ===
-                                                        "Error:401 Unauthorized"
-                                                        ? "Wrong Login credentials"
-                                                        : props.login?.errMess?.message
-                                                    : null}
-                                            </span>
-                                        </FormGroup>
-                                    </Form>
-                                )}
-                            </Formik>
-                        </form> */}
-            <form className="form form-login" onSubmit={handleSubmit}>
-              <fieldset>
-                <legend>
-                  Please, enter your email and password for login.
-                </legend>
-                <div className="input-block">
-                  <label htmlFor="login-email">E-mail</label>
-                  <input
-                    id="login-email"
-                    type="email"
-                    name="email"
-                    value={user.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="input-block">
-                  <label htmlFor="login-password">Password</label>
-                  <input
-                    id="login-password"
-                    type="password"
-                    name="password"
-                    value={user.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </fieldset>
-              <button type="submit" className="btn-login">
-                Login
-              </button>
-            </form>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              onSubmit={handleSubmit}
+            >
+              {(formProps) => (
+                <Form className="form form-login">
+                  <fieldset>
+                    <legend>
+                      Please, enter your email and password for login.
+                    </legend>
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="login-email">E-mail</label>
+                        </InputGroupAddon>
+                        <Field id="email" type="email" name="email" required />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="login-password">Password</label>
+                        </InputGroupAddon>
+                        <Field
+                          id="password"
+                          type="password"
+                          name="password"
+                          // value={user.password}
+                          // onChange={handleInputChange}
+                          required
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </fieldset>
+                  <button
+                    type="submit"
+                    className="btn-login"
+                    disabled={formProps.isSubmitting}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Login
+                  </button>
+                  <span className="text-danger pt-3 text-center">
+                    {props.login?.errMess
+                      ? props.login?.errMess?.message ===
+                        "Error:401 Unauthorized"
+                        ? "Wrong Login credentials"
+                        : props.login?.errMess?.message
+                      : null}
+                  </span>
+                </Form>
+              )}
+            </Formik>
           </div>
           <div className="form-wrapper">
             <button type="button" className="switcher switcher-signup">
               Sign Up
               <span className="underline" />
             </button>
-            <form className="form form-signup">
-              <fieldset>
-                <legend>
-                  Please, enter your email, password and password confirmation
-                  for sign up.
-                </legend>
-                <div className="input-block">
-                  <label htmlFor="signup-email">E-mail</label>
-                  <input id="signup-email" type="email" required />
-                </div>
-                <div className="input-block">
-                  <label htmlFor="signup-password">Password</label>
-                  <input id="signup-password" type="password" required />
-                </div>
-                <div className="input-block">
-                  <label htmlFor="signup-password-confirm">
-                    Confirm password
-                  </label>
-                  <input
-                    id="signup-password-confirm"
-                    type="password"
-                    required
-                  />
-                </div>
-              </fieldset>
-              <button type="submit" className="btn-signup">
-                Continue
-              </button>
-            </form>
+            <Formik
+              initialValues={{
+                first_name: "",
+                last_name: "",
+                email: "",
+                mobile: "",
+                password: "",
+                password_confirmation: "",
+              }}
+              onSubmit={SignuphandleSubmit}
+            >
+              {(formProps) => (
+                <Form className="form form-signup">
+                  <fieldset>
+                    <legend>
+                      Please, enter your email, password and password
+                      confirmation for sign up.
+                    </legend>
+
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-email">First Name</label>
+                        </InputGroupAddon>
+                        <Field
+                          id="first_name"
+                          type="text"
+                          name="first_name"
+                          required
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-email">Last Name</label>
+                        </InputGroupAddon>
+                        <Field
+                          id="last_name"
+                          type="text"
+                          name="last_name"
+                          required
+                        />
+                      </InputGroup>
+                    </FormGroup>
+
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-email">E-mail</label>
+                        </InputGroupAddon>
+                        <Field id="email" type="email" name="email" required />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-email">Mobile No</label>
+                        </InputGroupAddon>
+                        <Field id="mobile" type="text" name="mobile" required />
+                      </InputGroup>
+                    </FormGroup>
+
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-password">Password</label>
+                        </InputGroupAddon>
+                        <Field
+                          id="password"
+                          type="password"
+                          name="password"
+                          required
+                        />
+                      </InputGroup>
+                    </FormGroup>
+
+                    <FormGroup className="input-block">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <label htmlFor="signup-email">Confirm Password</label>
+                        </InputGroupAddon>
+                        <Field
+                          id="password_confirmation"
+                          type="password"
+                          name="password_confirmation"
+                          required
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </fieldset>
+                  <button
+                    type="submit"
+                    style={{ cursor: "pointer" }}
+                    className="btn-signup"
+                  >
+                    Continue
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </section>
@@ -216,6 +252,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   postLogin: (data) => {
     dispatch(actions.postLogin(data));
+  },
+  postSignup: (data) => {
+    dispatch(actions.postSignup(data));
   },
 });
 

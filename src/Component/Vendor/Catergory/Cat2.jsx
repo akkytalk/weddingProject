@@ -1,9 +1,14 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment } from "react";
 import Header from "../../Home/Header";
 import Footer from "../../Home/Footer";
 import { Link, useParams } from "react-router-dom";
 import Photo from "../../VendorPage/Photo";
+import { connect } from "react-redux";
+import * as actions from "../../../reduxStore/actions";
+
 const Cat2 = (props) => {
   const params = useParams();
   console.log(params.id);
@@ -34,14 +39,14 @@ const Cat2 = (props) => {
                   <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="#" className="breadcrumb-link">
+                        <Link to="/" className="breadcrumb-link">
                           Home
-                        </a>
+                        </Link>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="#" className="breadcrumb-link">
+                        <Link to="/vendorprofile" className="breadcrumb-link">
                           Vendor
-                        </a>
+                        </Link>
                       </li>
                       <li
                         className="breadcrumb-item active text-white"
@@ -62,73 +67,88 @@ const Cat2 = (props) => {
             <div className="container">
               <div className="row">
                 <div className="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
-                  <div className="vendor-thumbnail list-view">
-                    {/* Vendor thumbnail */}
-                    <div className="row">
-                      <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-right pr-0">
-                        <div className="vendor-img">
-                          {/* Vendor img */}
-                          <Link to="/samplepage">
-                            <div className="zoomimg">
-                              <img
-                                src="images/vendor-img-1.jpg"
-                                alt=""
-                                className="img-fluid"
-                              />
+                  {props.vendor?.map((ven, index) => {
+                    if (ven.vendor_type_id == params.id) {
+                      return (
+                        <div key={index} className="vendor-thumbnail list-view">
+                          {/* Vendor thumbnail */}
+                          <div className="row">
+                            <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-right pr-0">
+                              <div className="vendor-img">
+                                {/* Vendor img */}
+                                <Link to="/samplepage">
+                                  <div className="zoomimg">
+                                    <img
+                                      src={ven.photographs}
+                                      alt=""
+                                      className="img-fluid"
+                                    />
+                                  </div>
+                                </Link>
+                                <div className="wishlist-sign">
+                                  <Link
+                                    to="/samplepage"
+                                    className="btn-wishlist"
+                                  >
+                                    <i className="fa fa-heart" />
+                                  </Link>
+                                </div>
+                              </div>
                             </div>
-                          </Link>
-                          <div className="wishlist-sign">
-                            <Link to="/samplepage" className="btn-wishlist">
-                              <i className="fa fa-heart" />
-                            </Link>
+                            {/* /.Vendor img */}
+                            <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 pl-0">
+                              <div className="vendor-content">
+                                {/* Vendor Content */}
+                                <h2 className="vendor-title">
+                                  <Link to="/samplepage" className="title">
+                                    {ven.name}
+                                    {/* Wedding Venue Title Name */}
+                                  </Link>
+                                </h2>
+                                <p className="vendor-address">{ven.address}</p>
+                                {/* /.Vendor meta */}
+                              </div>
+                              <div className="vendor-meta m-0">
+                                <div className="vendor-meta-item vendor-meta-item-bordered">
+                                  <span className="vendor-price">
+                                    ${ven.package_price}
+                                  </span>
+                                  <span className="vendor-text">
+                                    Start From
+                                  </span>
+                                </div>
+                                <div className="vendor-meta-item vendor-meta-item-bordered">
+                                  <span className="vendor-guest">120+</span>
+                                  <span className="vendor-text">Guest</span>
+                                </div>
+                                <div className="vendor-meta-item vendor-meta-item-bordered">
+                                  <span className="rating-star">
+                                    <i className="fa fa-star rated" />
+                                    <i className="fa fa-star rated" />
+                                    <i className="fa fa-star rated" />
+                                    <i className="fa fa-star rated" />
+                                    <i className="fa fa-star rate-mute" />
+                                  </span>
+                                  <span className="rating-count vendor-text">
+                                    (20)
+                                  </span>
+                                </div>
+                              </div>
+                              {/* /.Vendor Content */}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {/* /.Vendor img */}
-                      <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 pl-0">
-                        <div className="vendor-content">
-                          {/* Vendor Content */}
-                          <h2 className="vendor-title">
-                            <Link to="/samplepage" className="title">
-                              Wedding Venue Title Name
-                            </Link>
-                          </h2>
-                          <p className="vendor-address">Ahmedabad, Gujarat.</p>
-                          {/* /.Vendor meta */}
-                        </div>
-                        <div className="vendor-meta m-0">
-                          <div className="vendor-meta-item vendor-meta-item-bordered">
-                            <span className="vendor-price">$150</span>
-                            <span className="vendor-text">Start From</span>
-                          </div>
-                          <div className="vendor-meta-item vendor-meta-item-bordered">
-                            <span className="vendor-guest">120+</span>
-                            <span className="vendor-text">Guest</span>
-                          </div>
-                          <div className="vendor-meta-item vendor-meta-item-bordered">
-                            <span className="rating-star">
-                              <i className="fa fa-star rated" />
-                              <i className="fa fa-star rated" />
-                              <i className="fa fa-star rated" />
-                              <i className="fa fa-star rated" />
-                              <i className="fa fa-star rate-mute" />
-                            </span>
-                            <span className="rating-count vendor-text">
-                              (20)
-                            </span>
-                          </div>
-                        </div>
-                        {/* /.Vendor Content */}
-                      </div>
-                    </div>
-                  </div>
+                      );
+                    }
+                  })}
+
                   {/* /.Vendor thumbnail */}
+                  {/* Vendor thumbnail */}
+                  {/* Vendor img */}
                   <div className="vendor-thumbnail list-view">
                     <div className="row">
-                      {/* Vendor thumbnail */}
                       <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-right pr-0">
                         <div className="vendor-img">
-                          {/* Vendor img */}
                           <Link to="/samplepage">
                             <div className="zooming">
                               <img
@@ -146,9 +166,7 @@ const Cat2 = (props) => {
                         </div>
                       </div>
                       <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 pl-0">
-                        {/* /.Vendor img */}
                         <div className="vendor-content">
-                          {/* Vendor Content */}
                           <h2 className="vendor-title">
                             <Link to="/samplepage" className="title">
                               Wedding Venue Title Name
@@ -178,17 +196,17 @@ const Cat2 = (props) => {
                             </span>
                           </div>
                         </div>
-                        {/* /.Vendor Content */}
                       </div>
                     </div>
                   </div>
+                  {/* /.Vendor Content */}
                   {/* /.Vendor thumbnail */}
-                  <div className="vendor-thumbnail list-view">
-                    {/* Vendor thumbnail */}
+                  {/* <div className="vendor-thumbnail list-view">
+                    
                     <div className="row">
                       <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-right pr-0">
                         <div className="vendor-img">
-                          {/* Vendor img */}
+                         
                           <Link to="/samplepage">
                             <div className="zooming">
                               <img
@@ -205,10 +223,10 @@ const Cat2 = (props) => {
                           </div>
                         </div>
                       </div>
-                      {/* /.Vendor img */}
+                   
                       <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 pl-0">
                         <div className="vendor-content">
-                          {/* Vendor Content */}
+                     
                           <h2 className="vendor-title">
                             <Link to="samplepage" className="title">
                               Wedding Venue Title Name
@@ -239,16 +257,16 @@ const Cat2 = (props) => {
                           </div>
                         </div>
                       </div>
-                      {/* /.Vendor Content */}
+                      
                     </div>
-                    {/* /.Vendor thumbnail */}
-                  </div>
-                  <div className="vendor-thumbnail list-view">
+                    
+                  </div> */}
+                  {/* <div className="vendor-thumbnail list-view">
                     <div className="row">
-                      {/* Vendor thumbnail */}
+                      
                       <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-right pr-0">
                         <div className="vendor-img">
-                          {/* Vendor img */}
+                          
                           <Link to="/samplepage">
                             <div className="zooming">
                               <img
@@ -265,10 +283,10 @@ const Cat2 = (props) => {
                           </div>
                         </div>
                       </div>
-                      {/* /.Vendor img */}
+                     
                       <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 pl-0">
                         <div className="vendor-content m-0">
-                          {/* Vendor Content */}
+                          
                           <h2 className="vendor-title">
                             <Link to="/samplepage" className="title">
                               Wedding Venue Title Name
@@ -276,7 +294,7 @@ const Cat2 = (props) => {
                           </h2>
                           <p className="vendor-address">Baroda, Gujarat.</p>
                         </div>
-                        {/* /.Vendor Content */}
+                        
                         <div className="vendor-meta">
                           <div className="vendor-meta-item vendor-meta-item-bordered">
                             <span className="vendor-price">$150</span>
@@ -301,8 +319,8 @@ const Cat2 = (props) => {
                         </div>
                       </div>
                     </div>
-                    {/* /.Vendor thumbnail */}
-                  </div>
+                    
+                  </div> */}
                   {/* paginations */}
                   <div className="pagination">
                     <nav aria-label="Page navigation example">
@@ -591,8 +609,20 @@ const Cat2 = (props) => {
       </Fragment>
     );
   } else {
-    return <Photo params={params} />;
+    return <Photo params={params.id} />;
   }
 };
 
-export default Cat2;
+const mapStateToProps = (state) => {
+  return {
+    vendor: state.vendor.vendor,
+    vendortype: state.vendortype.vendortype,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onVendorGetData: () => dispatch(actions.vendorGetData()),
+  onVendortypeGetData: () => dispatch(actions.vendortypeGetData()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cat2);

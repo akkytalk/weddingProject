@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../reduxStore/actions";
 import { Formik, Form, Field } from "formik";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import mogache from "../../Assets/Images/mogache.jpeg";
 
 import {
   Card,
@@ -13,7 +17,7 @@ import {
   InputGroupAddon,
 } from "reactstrap";
 
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 const Forms = (props) => {
   const [user, setUser] = useState({
     vendor_type_name: "",
@@ -23,6 +27,8 @@ const Forms = (props) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
+
+  const [venueRegister, setVenueRegister] = useState(false);
 
   React.useEffect(() => {
     props.onVendorGetData();
@@ -62,9 +68,32 @@ const Forms = (props) => {
     return;
   };
 
+  const SignuphandleSubmit2 = (values, setSubmitting) => {
+    let data = {
+      name: values.name,
+      email: values.email,
+      vendor_type_name: "venue",
+      address: values.address,
+      price_per_plate: values.price_per_plate,
+      max_guest_capacity: values.max_guest_capacity,
+      seating_capacity: values.seating_capacity,
+      landmark: values.landmark,
+      USP: values.USP,
+      events_completed: values.events_completed,
+      mobile: values.mobile,
+      password: values.password,
+      password_confirmation: values.password_confirmation,
+    };
+    console.log(data);
+    props.postVendorSignup(data);
+    setSubmitting(false);
+    return;
+  };
+
   console.log("user", user);
 
   console.log("vendorLogin", props.vendorLogin?.vendorLogin);
+  console.log("venueRegister", venueRegister);
 
   if (props.vendorLogin?.vendorLogin.length !== 0) {
     return <Redirect to={"/dashboard"} />;
@@ -82,7 +111,17 @@ const Forms = (props) => {
       >
         <Card className="p-5">
           <CardBody>
-            <div
+            <CircularProgress
+              style={{
+                width: "50px",
+                height: "50px",
+                position: "absolute",
+                left: "45%",
+                top: "35%",
+                //transform: "translate(-50%, -50%)",
+              }}
+            />
+            {/* <div
               className="spinner-grow text-success col-xs-12 col-sm-12 col-md-5 col-lg-4"
               style={{
                 width: "3rem",
@@ -95,7 +134,7 @@ const Forms = (props) => {
               role="status"
             >
               <span className="sr-only">Loading...</span>
-            </div>
+            </div> */}
           </CardBody>
         </Card>
       </div>
@@ -110,9 +149,13 @@ const Forms = (props) => {
             <div className="offset-xl-3 col-xl-6 offset-lg-3 col-lg-6 col-md-12 col-sm-12 col-12  ">
               {/* vendor head */}
               <div className="vendor-head">
-                <a href="index.html">
+                <a href="/">
                   <img
-                    src="images/logo.png"
+                    src={mogache}
+                    style={{
+                      maxWidth: "40%",
+                      borderRadius: "30px",
+                    }}
                     alt="Wedding Vendor & Supplier Directory HTML Template "
                   />
                 </a>
@@ -158,236 +201,563 @@ const Forms = (props) => {
                     role="tabpanel"
                     aria-labelledby="tab-1"
                   >
-                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                      {/* vendor title */}
-                      <div className="vendor-form-title">
-                        <h3 className="mb-2">Business Register</h3>
-                        <p>
-                          Join Weddingsto get your business listed or to claim
-                          your listing for FREE!
+                    {venueRegister ? (
+                      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                        {/* vendor title */}
+                        <div className="vendor-form-title">
+                          <h3 className="mb-2">Business Register</h3>
+                          <p>
+                            Join WeddingMogache get your business listed or to
+                            claim your listing for FREE!
+                          </p>
+                          <p
+                            className="mt-2"
+                            onClick={() => setVenueRegister(false)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <Link>
+                              want to Registration for Normal Vendor ?{" "}
+                              <a>Register</a>
+                            </Link>
+                          </p>
+                        </div>
+                        {/* /.vendor title */}
+                        <Formik
+                          initialValues={{
+                            name: "",
+                            email: "",
+                            vendor_type_name: "venue",
+                            address: "",
+                            price_per_plate: "",
+                            max_guest_capacity: "",
+                            seating_capacity: "",
+                            landmark: "",
+                            USP: "",
+                            events_completed: "",
+                            mobile: "",
+                            password: "",
+                            password_confirmation: "",
+                          }}
+                          onSubmit={SignuphandleSubmit2}
+                        >
+                          {(formProps) => (
+                            <Form>
+                              <div className="row">
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="bussinessname"
+                                      />
+                                      <Field
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        placeholder="Venue Name"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="email"
+                                      />
+                                      <Field
+                                        id="email"
+                                        type="text"
+                                        name="email"
+                                        placeholder="Enter Email"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="address"
+                                      />
+                                      <Field
+                                        id="address"
+                                        type="text"
+                                        name="address"
+                                        placeholder="Name of City"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="price_per_plate"
+                                      />
+                                      <Field
+                                        id="price_per_plate"
+                                        type="number"
+                                        name="price_per_plate"
+                                        placeholder="Price per plate"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="max_guest_capacity"
+                                      />
+                                      <Field
+                                        id="max_guest_capacity"
+                                        type="number"
+                                        name="max_guest_capacity"
+                                        placeholder="Maximum guest capacity"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="seating_capacity"
+                                      />
+                                      <Field
+                                        id="seating_capacity"
+                                        type="number"
+                                        name="seating_capacity"
+                                        placeholder="Seating capacity"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="landmark"
+                                      />
+                                      <Field
+                                        id="landmark"
+                                        type="text"
+                                        name="landmark"
+                                        placeholder="Landmark"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="USP"
+                                      />
+                                      <Field
+                                        id="USP"
+                                        type="text"
+                                        name="USP"
+                                        placeholder="USP(unique selling point)"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="events_completed"
+                                      />
+                                      <Field
+                                        id="events_completed"
+                                        type="number"
+                                        name="events_completed"
+                                        placeholder="Event Completed"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="mobile"
+                                      />
+                                      <Field
+                                        id="mobile"
+                                        type="number"
+                                        name="mobile"
+                                        placeholder="Mobile No"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="passwordregister"
+                                      />
+                                      <Field
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="passwordregister"
+                                      />
+                                      <Field
+                                        id="password_confirmation"
+                                        type="password"
+                                        name="password_confirmation"
+                                        placeholder="Confirm Password"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+
+                                {/* buttons */}
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  <button
+                                    type="submit"
+                                    name="singlebutton"
+                                    className="btn btn-default"
+                                  >
+                                    Sign up for Marriage Hall
+                                  </button>
+                                </div>
+                              </div>
+                            </Form>
+                          )}
+                        </Formik>
+                        <p
+                          className="mt-2"
+                          onClick={() => setVenueRegister(false)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {" "}
+                          <Link>
+                            want to Registration for Normal Vendor ?{" "}
+                            <a>Register</a>
+                          </Link>
                         </p>
                       </div>
-                      {/* /.vendor title */}
-                      <Formik
-                        initialValues={{
-                          name: "",
-                          email: "",
-                          vendor_type_name: "",
-                          events_completed: "",
-                          years_of_experience: "",
-                          mobile: "",
-                          password: "",
-                          password_confirmation: "",
-                          address: "",
-                        }}
-                        onSubmit={SignuphandleSubmit}
-                      >
-                        {(formProps) => (
-                          <Form>
-                            <div className="row">
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="bussinessname"
-                                    />
-                                    <Field
-                                      id="name"
-                                      type="text"
-                                      name="name"
-                                      placeholder="Bussiness Name"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="email"
-                                    />
-                                    <Field
-                                      id="email"
-                                      type="text"
-                                      name="email"
-                                      placeholder="Enter Email"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="name"
-                                    />
-                                    <Input
-                                      type="select"
-                                      id="vendor_type_name"
-                                      name="vendor_type_name"
-                                      required
-                                      value={user.vendor_type_name}
-                                      onChange={handleInputChange}
-                                    >
-                                      <option>Vendor Purpose</option>
-                                      {props.vendortype?.map((ven, index) => (
-                                        <option key={index} value={ven.name}>
-                                          {ven.name}
-                                        </option>
-                                      ))}
-                                    </Input>
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="email"
-                                    />
-                                    <Field
-                                      id="events_completed"
-                                      type="number"
-                                      name="events_completed"
-                                      placeholder="Event Completed"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                    ) : (
+                      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                        {/* vendor title */}
+                        <div className="vendor-form-title">
+                          <h3 className="mb-2">Business Register</h3>
+                          <p>
+                            Join WeddingMogache get your business listed or to
+                            claim your listing for FREE!
+                          </p>
+                          <p
+                            className="mt-2"
+                            onClick={() => setVenueRegister(true)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <Link>
+                              want to Registration for Marriage Hall ?{" "}
+                              <a>Register</a>
+                            </Link>
+                          </p>
+                        </div>
+                        {/* /.vendor title */}
+                        <Formik
+                          initialValues={{
+                            name: "",
+                            email: "",
+                            vendor_type_name: "",
+                            events_completed: "",
+                            years_of_experience: "",
+                            mobile: "",
+                            password: "",
+                            password_confirmation: "",
+                            address: "",
+                          }}
+                          onSubmit={SignuphandleSubmit}
+                        >
+                          {(formProps) => (
+                            <Form>
+                              <div className="row">
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="bussinessname"
+                                      />
+                                      <Field
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        placeholder="Bussiness Name"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="email"
+                                      />
+                                      <Field
+                                        id="email"
+                                        type="text"
+                                        name="email"
+                                        placeholder="Enter Email"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group">
+                                    <InputGroup>
+                                      {/* <label
+                                        className="control-label sr-only"
+                                        htmlFor="name"
+                                      /> */}
+                                      <Input
+                                        type="select"
+                                        id="vendor_type_name"
+                                        name="vendor_type_name"
+                                        required
+                                        value={user.vendor_type_name}
+                                        onChange={handleInputChange}
+                                      >
+                                        <option>Vendor Purpose</option>
+                                        {props.vendortype.map((ven, index) => (
+                                          <option key={index} value={ven.name}>
+                                            {ven.name}
+                                          </option>
+                                        ))}
+                                      </Input>
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="email"
+                                      />
+                                      <Field
+                                        id="events_completed"
+                                        type="number"
+                                        name="events_completed"
+                                        placeholder="Event Completed"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="email"
-                                    />
-                                    <Field
-                                      id="years_of_experience"
-                                      type="number"
-                                      name="years_of_experience"
-                                      placeholder="years of experience"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="email"
+                                      />
+                                      <Field
+                                        id="years_of_experience"
+                                        type="number"
+                                        name="years_of_experience"
+                                        placeholder="years of experience"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="mobile"
-                                    />
-                                    <Field
-                                      id="mobile"
-                                      type="number"
-                                      name="mobile"
-                                      placeholder="Mobile No"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="mobile"
+                                      />
+                                      <Field
+                                        id="mobile"
+                                        type="number"
+                                        name="mobile"
+                                        placeholder="Mobile No"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="passwordregister"
-                                    />
-                                    <Field
-                                      id="password"
-                                      type="password"
-                                      name="password"
-                                      placeholder="Password"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="passwordregister"
+                                      />
+                                      <Field
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="passwordregister"
-                                    />
-                                    <Field
-                                      id="password_confirmation"
-                                      type="password"
-                                      name="password_confirmation"
-                                      placeholder="Confirm Password"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="passwordregister"
+                                      />
+                                      <Field
+                                        id="password_confirmation"
+                                        type="password"
+                                        name="password_confirmation"
+                                        placeholder="Confirm Password"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {/* Text input*/}
-                                <FormGroup className="form-group service-form-group">
-                                  <InputGroup>
-                                    <label
-                                      className="control-label sr-only"
-                                      htmlFor="address"
-                                    />
-                                    <Field
-                                      id="address"
-                                      type="text"
-                                      name="address"
-                                      placeholder="Name of City"
-                                      className="form-control"
-                                      required
-                                    />
-                                  </InputGroup>
-                                </FormGroup>
-                              </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  {/* Text input*/}
+                                  <FormGroup className="form-group service-form-group">
+                                    <InputGroup>
+                                      <label
+                                        className="control-label sr-only"
+                                        htmlFor="address"
+                                      />
+                                      <Field
+                                        id="address"
+                                        type="text"
+                                        name="address"
+                                        placeholder="Name of City"
+                                        className="form-control"
+                                        required
+                                      />
+                                    </InputGroup>
+                                  </FormGroup>
+                                </div>
 
-                              {/* buttons */}
-                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                <button
-                                  type="submit"
-                                  name="singlebutton"
-                                  className="btn btn-default"
-                                >
-                                  Sign up
-                                </button>
+                                {/* buttons */}
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                  <button
+                                    type="submit"
+                                    name="singlebutton"
+                                    className="btn btn-default"
+                                  >
+                                    Sign up for normal vendor
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          </Form>
-                        )}
-                      </Formik>
-                      <p className="mt-2">
-                        {" "}
-                        Have you subscribed? <a> Login</a>
-                      </p>
-                    </div>
+                            </Form>
+                          )}
+                        </Formik>
+                        <p
+                          className="mt-2"
+                          onClick={() => setVenueRegister(true)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {" "}
+                          <Link>
+                            want to Registration for Marriage Hall ?{" "}
+                            <a>Register</a>
+                          </Link>
+                        </p>
+                      </div>
+                    )}
                   </div>
                   {/* vendor-login */}
                   <div

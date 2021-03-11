@@ -1,8 +1,8 @@
 import * as ActionTypes from "./ActionType";
 import { baseUrl } from "../../shared/baseUrl";
 import { toast } from "react-toastify";
-import axios from "../../axios";
-import swal from "sweetalert";
+//import axios from "../../axios";
+//import swal from "sweetalert";
 
 const myheader = new Headers({
   Accept: "application/json",

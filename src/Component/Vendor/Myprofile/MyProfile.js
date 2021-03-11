@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { removeVendorLogin } from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
 
-const Dash = (props) => {
+const MyProfile = (props) => {
   const handleLogout = async () => {
     await props.removeVendorLogin();
   };
@@ -328,13 +328,7 @@ const Dash = (props) => {
                 <div className="row">
                   <div className="col-xl-12 col-lg-10 col-md-9 col-sm-12 col-12">
                     <div className="dashboard-page-header">
-                      <h3 className="dashboard-page-title">
-                        {" "}
-                        Hi,{" "}
-                        {props.vendorLogin?.vendorLogin?.vendor?.name
-                          ? props.vendorLogin?.vendorLogin?.vendor?.name
-                          : "Vendor"}
-                      </h3>
+                      <h3 className="dashboard-page-title">Hi, Vendor.</h3>
                       <p className="d-block">
                         Here’s what’s happening with your wedding venue business
                         today.
@@ -431,4 +425,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dash);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

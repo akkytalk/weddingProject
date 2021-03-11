@@ -27,6 +27,11 @@ import UserLogin from "./Component/User/UserLogin";
 import { configureStore } from "./reduxStore/ConfigureStore";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
+import MyListing from "./Component/Vendor/MyListing/MyListing";
+import MyBooking from "./Component/Vendor/MyBooking/MyBooking";
+import MyProfile from "./Component/Vendor/Myprofile/MyProfile";
+import Reviews from "./Component/Vendor/Reviews/Reviews";
+import Requests from "./Component/Vendor/Requests/Requests";
 
 const { persistor, store } = configureStore();
 
@@ -58,8 +63,14 @@ const App = () => {
               <Route path="/jewles" component={Jewellery} />
               <Route path="/pandit" component={Pandit} />
               <Route path="/mendhi" component={Mendhi} />
+              <Route path="/mylisting" component={MyListing} />
+              <Route path="/mybooking" component={MyBooking} />
+              <Route path="/myprofile" component={MyProfile} />
+              <Route path="/reviews" component={Reviews} />
+              <Route path="/requests" component={Requests} />
 
-              <Route path="/cat" component={Category} />
+              <Route path="/cat/:id" component={Category} />
+              <Route path="/cat" exact component={Category} />
               <Route path="/category" exact component={Cat2} />
               <Route path="/category/:id" component={Cat2} />
             </Switch>

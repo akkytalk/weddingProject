@@ -4,8 +4,11 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { removeVendorLogin } from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
+//import * as actions from "../../reduxStore/actions";
 
-const Dash = (props) => {
+import MyListingItems from "./MyListingItems";
+
+const MyListing = (props) => {
   const handleLogout = async () => {
     await props.removeVendorLogin();
   };
@@ -171,7 +174,7 @@ const Dash = (props) => {
                             </li>
                           </ul>
                         </li>
-                        <li className="nav-item dropdown dropleft user-vendor ">
+                        <li className="nav-item dropdown dropleft user-vendor">
                           <a
                             className="nav-link dropdown-toggle"
                             href="#"
@@ -246,7 +249,7 @@ const Dash = (props) => {
           </div>
           <div className="dashboard-wrapper">
             <div className="dashboard-sidebar offcanvas-collapse">
-              <div className="vendor-user-profile">
+              <div className="vendor-user-profile  mt-3">
                 <div className="vendor-profile-img">
                   <img
                     src={props.vendorLogin?.vendorLogin?.vendor?.photographs}
@@ -264,7 +267,7 @@ const Dash = (props) => {
               </div>
               <div className="dashboard-nav">
                 <ul className="list-unstyled">
-                  <li className="active">
+                  <li>
                     <Link to="/dashboard">
                       <span className="dash-nav-icon">
                         <i className="fas fa-compass" />
@@ -272,7 +275,7 @@ const Dash = (props) => {
                       Dashboard
                     </Link>
                   </li>
-                  <li>
+                  <li className="active">
                     <Link to="/mylisting">
                       <span className="dash-nav-icon">
                         <i className="fas fa-list-alt" />{" "}
@@ -326,10 +329,9 @@ const Dash = (props) => {
             <div className="dashboard-content">
               <div className="container-fluid">
                 <div className="row">
-                  <div className="col-xl-12 col-lg-10 col-md-9 col-sm-12 col-12">
+                  {/* <div className="col-xl-12 col-lg-10 col-md-9 col-sm-12 col-12">
                     <div className="dashboard-page-header">
                       <h3 className="dashboard-page-title">
-                        {" "}
                         Hi,{" "}
                         {props.vendorLogin?.vendorLogin?.vendor?.name
                           ? props.vendorLogin?.vendorLogin?.vendor?.name
@@ -340,73 +342,10 @@ const Dash = (props) => {
                         today.
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="row">
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">6</div>
-                          <p>Total Listed Item</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-051-wedding-arch" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">2</div>
-                          <p>Request Quote</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-021-love-1" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">1</div>
-                          <p>Your Reviews</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">5</div>
-                          <p>My Bookings</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
+                  <MyListingItems />
                 </div>
               </div>
             </div>
@@ -431,4 +370,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dash);
+export default connect(mapStateToProps, mapDispatchToProps)(MyListing);

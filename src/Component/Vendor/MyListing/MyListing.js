@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { removeVendorLogin } from "../../../reduxStore/actions";
+import { editVendorRow, removeVendorLogin } from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
 //import * as actions from "../../reduxStore/actions";
 
@@ -12,6 +13,14 @@ const MyListing = (props) => {
   const handleLogout = async () => {
     await props.removeVendorLogin();
   };
+
+  const [vendor, setVendor] = useState([]);
+
+  useEffect(() => {
+    let id = props.vendorLogin?.vendorLogin?.vendor?.id;
+    props.editVendorRow(id, vendor, setVendor);
+  }, []);
+  console.log(vendor, "vendor");
 
   console.log("props.vendorLogin?.vendorLogin", props.vendorLogin);
 
@@ -187,10 +196,7 @@ const MyListing = (props) => {
                             <span className="user-icon">
                               {" "}
                               <img
-                                src={
-                                  props.vendorLogin?.vendorLogin?.vendor
-                                    ?.photographs
-                                }
+                                src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                                 style={{ width: "50px", height: "40px" }}
                                 alt=""
                                 className="rounded-circle mb10"
@@ -252,7 +258,7 @@ const MyListing = (props) => {
               <div className="vendor-user-profile  mt-3">
                 <div className="vendor-profile-img">
                   <img
-                    src={props.vendorLogin?.vendorLogin?.vendor?.photographs}
+                    src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                     alt=""
                     className="rounded-circle"
                     style={{ width: "80px", height: "80px" }}
@@ -300,7 +306,7 @@ const MyListing = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="reviews">
+                    <Link to="/reviews">
                       <span className="dash-nav-icon">
                         <i className="fas fa-comments" />
                       </span>
@@ -345,7 +351,7 @@ const MyListing = (props) => {
                   </div> */}
                 </div>
                 <div className="row">
-                  <MyListingItems />
+                  <MyListingItems vendor={vendor} setVendor={setVendor} />
                 </div>
               </div>
             </div>
@@ -367,6 +373,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   removeVendorLogin: () => {
     dispatch(removeVendorLogin());
+  },
+  editVendorRow: (id, vendor, setVendor) => {
+    dispatch(editVendorRow(id, vendor, setVendor));
   },
 });
 

@@ -184,11 +184,8 @@ const Dash = (props) => {
                             <span className="user-icon">
                               {" "}
                               <img
-                                src={
-                                  props.vendorLogin?.vendorLogin?.vendor
-                                    ?.photographs
-                                }
-                                style={{ width: "50px", height: "40px" }}
+                                src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
+                                style={{ width: "45px", height: "30px" }}
                                 alt=""
                                 className="rounded-circle mb10"
                               />
@@ -249,7 +246,7 @@ const Dash = (props) => {
               <div className="vendor-user-profile">
                 <div className="vendor-profile-img">
                   <img
-                    src={props.vendorLogin?.vendorLogin?.vendor?.photographs}
+                    src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                     alt=""
                     className="rounded-circle"
                     style={{ width: "80px", height: "80px" }}
@@ -297,7 +294,7 @@ const Dash = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="reviews">
+                    <Link to="/reviews">
                       <span className="dash-nav-icon">
                         <i className="fas fa-comments" />
                       </span>

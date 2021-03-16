@@ -87,32 +87,30 @@ export const editVendorRowStart = () => {
   };
 };
 
+export const editVendorSetData = (editVendor) => {
+  return {
+    type: actionType.EDIT_VENDOR_SET_DATA,
+    editVendor: editVendor,
+  };
+};
+
 export const failEditVendor = () => {
   return {
     type: actionType.FAIL_EDIT_VENDOR,
   };
 };
 
-export const editVendorRow = (
-  id,
-  editing,
-  setEditing,
-  currentUser,
-  setCurrentUser
-) => {
+export const editVendorRow = (id, vendor, setVendor) => {
   return (dispatch) => {
     dispatch(editVendorRowStart());
-    setEditing(true);
+    // setEditing(true);
     axios
       .get(`vendors/${id}`)
       .then((res) => {
         console.log(res.data, "editing data res");
-        setEditing(res.data);
-        setCurrentUser({
-          id: res.data.id,
-          name: res.data.name,
-          under_group_name: res.data.under_group_name,
-        });
+        // setEditing(res.data);
+        setVendor(res.data);
+        dispatch(editVendorSetData(res.data));
       })
       .catch((error) => dispatch(failEditVendor()));
   };
@@ -124,27 +122,49 @@ export const updateVendorDataStart = () => {
   };
 };
 
-export const updateVendorData = (
-  id,
-  editing,
-  setEditing,
-  currentUser,
-  setCurrentUser
-) => {
+export const updateVendorData = (data) => {
   return (dispatch) => {
     dispatch(updateVendorDataStart());
-    setEditing(false);
+    //setEditing(false);
 
+    console.log("data", data);
+    //const image = data.image;
     axios
-      .put(`vendors/${id}`, currentUser)
+      .put(`vendors/${data.id}`, data)
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated Account Group!").then(() => {
+        swal("Successfully Updated Vendor details!").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+      });
+  };
+};
+
+export const VendorImageUpload = (data, progress, setProgress) => {
+  return (dispatch) => {
+    dispatch(updateVendorDataStart());
+    //setEditing(false);
+
+    const file = data.file;
+    console.log("file", file);
+    axios
+      .put(`updateImage/${data.id}`, file)
+      .then((res) => {
+        const progress = Math.round(
+          (res.bytesTransferred / res.totalBytes) * 100
+        );
+        setProgress(progress);
+        console.log("swal");
+        swal("Successfully Updated Vendor Pic!").then(() => {
+          window.location.reload();
+        });
+      })
+      .then((data) => console.log("output", data.json()))
+      .catch((error) => {
+        console.log(error.response);
       });
   };
 };

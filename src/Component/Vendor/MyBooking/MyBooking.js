@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { removeVendorLogin } from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
+import MyBookingData from "./MyBookingData";
 
 const MyBooking = (props) => {
   const handleLogout = async () => {
@@ -184,10 +185,7 @@ const MyBooking = (props) => {
                             <span className="user-icon">
                               {" "}
                               <img
-                                src={
-                                  props.vendorLogin?.vendorLogin?.vendor
-                                    ?.photographs
-                                }
+                                src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                                 style={{ width: "50px", height: "40px" }}
                                 alt=""
                                 className="rounded-circle mb10"
@@ -246,10 +244,10 @@ const MyBooking = (props) => {
           </div>
           <div className="dashboard-wrapper">
             <div className="dashboard-sidebar offcanvas-collapse">
-              <div className="vendor-user-profile">
+              <div className="vendor-user-profile mt-3">
                 <div className="vendor-profile-img">
                   <img
-                    src={props.vendorLogin?.vendorLogin?.vendor?.photographs}
+                    src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                     alt=""
                     className="rounded-circle"
                     style={{ width: "80px", height: "80px" }}
@@ -297,7 +295,7 @@ const MyBooking = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="reviews">
+                    <Link to="/reviews">
                       <span className="dash-nav-icon">
                         <i className="fas fa-comments" />
                       </span>
@@ -324,85 +322,7 @@ const MyBooking = (props) => {
               </div>
             </div>
             <div className="dashboard-content">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-xl-12 col-lg-10 col-md-9 col-sm-12 col-12">
-                    <div className="dashboard-page-header">
-                      <h3 className="dashboard-page-title">Hi, Vendor.</h3>
-                      <p className="d-block">
-                        Here’s what’s happening with your wedding venue business
-                        today.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">6</div>
-                          <p>Total Listed Item</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-051-wedding-arch" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">2</div>
-                          <p>Request Quote</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-021-love-1" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">1</div>
-                          <p>Your Reviews</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">5</div>
-                          <p>My Bookings</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <MyBookingData />
             </div>
           </div>
         </div>

@@ -1,50 +1,42 @@
 import * as actionType from "../actions/ActionType";
 
 const initialState = {
-  vendor: [],
-  editVendor: [],
+  myBooking: [],
   error: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.VENDOR_SET_DATA:
+    case actionType.MYBOOKING_SET_DATA:
       return {
         ...state,
-        vendor: action.vendor,
+        myBooking: action.myBooking,
         error: false,
       };
 
-    case actionType.VENDOR_FAIL_DATA:
+    case actionType.MYBOOKING_FAIL_DATA:
       return {
         ...state,
         error: true,
       };
 
-    case actionType.POST_VENDOR_DATA_FAIL:
+    case actionType.POST_MYBOOKING_DATA_FAIL:
       return {
         ...state,
         error: true,
       };
 
-    case actionType.EDIT_VENDOR_ROW_START:
+    case actionType.EDIT_MYBOOKING_ROW_START:
       return {
         ...state,
       };
 
-    case actionType.EDIT_VENDOR_SET_DATA:
-      return {
-        ...state,
-        editVendor: action.editVendor,
-        error: false,
-      };
-
-    case actionType.UPDATE_VENDOR_DATA_START:
+    case actionType.UPDATE_MYBOOKING_DATA_START:
       return {
         ...state,
       };
 
-    case actionType.CURRENT_USER_EDIT_VENDOR:
+    case actionType.CURRENT_USER_EDIT_MYBOOKING:
       return {
         ...state,
         editing: true,

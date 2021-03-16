@@ -1,16 +1,53 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { removeVendorLogin } from "../../../reduxStore/actions";
+import {
+  removeVendorLogin,
+  updateVendorData,
+} from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
+import "./MyProfile.css";
+
+import { Button } from "reactstrap";
+import { VendorImageUpload } from "../../../reduxStore/actions/vendorCreator";
 
 const MyProfile = (props) => {
   const handleLogout = async () => {
     await props.removeVendorLogin();
   };
 
-  console.log("props.vendorLogin?.vendorLogin", props.vendorLogin);
+  const [progress, setProgress] = useState(0);
+  const [image, setImage] = useState({});
+
+  let fd = new FormData();
+  const handleChange = (e) => {
+    // console.log("e.target.files[0]", e.target.files[0]);
+    // if (e.target.files[0]) {
+    //   setImage(e.target.files[0]);
+    // }
+
+    let images = e.target.files;
+    console.log("test1", images[0]);
+
+    // fd.append("file", images[0]);
+    fd = { ...fd, file: images[0] };
+    setImage(fd.file);
+    // image.append(fd);
+    image = { ...image, fd };
+    console.log("images", image);
+  };
+
+  async function handleUpload(e) {
+    e.preventDefault();
+    let data = {
+      id: props.editVendor?.id,
+      file: fd.file,
+    };
+    console.log("data 31", data);
+    props.VendorImageUpload(data, progress, setProgress);
+  }
+  console.log("props.editVendor", props.editVendor);
 
   if (props.vendorLogin?.vendorLogin.length === 0) {
     return <Redirect to={"/vendor"} />;
@@ -184,10 +221,7 @@ const MyProfile = (props) => {
                             <span className="user-icon">
                               {" "}
                               <img
-                                src={
-                                  props.vendorLogin?.vendorLogin?.vendor
-                                    ?.photographs
-                                }
+                                src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                                 style={{ width: "50px", height: "40px" }}
                                 alt=""
                                 className="rounded-circle mb10"
@@ -249,7 +283,7 @@ const MyProfile = (props) => {
               <div className="vendor-user-profile">
                 <div className="vendor-profile-img">
                   <img
-                    src={props.vendorLogin?.vendorLogin?.vendor?.photographs}
+                    src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
                     alt=""
                     className="rounded-circle"
                     style={{ width: "80px", height: "80px" }}
@@ -264,7 +298,7 @@ const MyProfile = (props) => {
               </div>
               <div className="dashboard-nav">
                 <ul className="list-unstyled">
-                  <li className="active">
+                  <li>
                     <Link to="/dashboard">
                       <span className="dash-nav-icon">
                         <i className="fas fa-compass" />
@@ -297,14 +331,14 @@ const MyProfile = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="reviews">
+                    <Link to="/reviews">
                       <span className="dash-nav-icon">
                         <i className="fas fa-comments" />
                       </span>
                       Reviews{" "}
                     </Link>
                   </li>
-                  <li>
+                  <li className="active">
                     <Link to="/myprofile">
                       <span className="dash-nav-icon">
                         <i className="fas fa-user-circle" />
@@ -328,78 +362,42 @@ const MyProfile = (props) => {
                 <div className="row">
                   <div className="col-xl-12 col-lg-10 col-md-9 col-sm-12 col-12">
                     <div className="dashboard-page-header">
-                      <h3 className="dashboard-page-title">Hi, Vendor.</h3>
-                      <p className="d-block">
-                        Here’s what’s happening with your wedding venue business
-                        today.
-                      </p>
+                      <h3 className="dashboard-page-title">
+                        Update your profile
+                      </h3>
+                      {/* <p className="d-block">Update your profile</p> */}
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">6</div>
-                          <p>Total Listed Item</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-051-wedding-arch" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
+                <div className="col">
+                  <div className="image-upload">
+                    <img
+                      src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
+                      alt=""
+                    />
                   </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">2</div>
-                          <p>Request Quote</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-021-love-1" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">1</div>
-                          <p>Your Reviews</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div className="card card-summary">
-                      <div className="card-body">
-                        <div className="float-left">
-                          <div className="summary-count">5</div>
-                          <p>My Bookings</p>
-                        </div>
-                        <div className="summary-icon">
-                          <i className="icon-004-chat" />
-                        </div>
-                      </div>
-                      <div className="card-footer text-center">
-                        <a href="#">View All</a>
-                      </div>
-                    </div>
+                  <div className="imageupload">
+                    <progress
+                      value={progress}
+                      className="imageupload-progress"
+                      max="100"
+                    />
+
+                    {/* <input
+                      type="file"
+                      onChange={handleChange}
+                      formEncType="multipart/form-data"
+                    /> */}
+                    <form onSubmit={handleUpload} encType="multipart/form-data">
+                      <input
+                        type="file"
+                        name="file"
+                        label="Product Picture"
+                        onChange={handleChange}
+                        multiple
+                      />
+                      <Button type="submit">Upload</Button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -416,12 +414,16 @@ const MyProfile = (props) => {
 const mapStateToProps = (state) => {
   return {
     vendorLogin: state.vendorLogin,
+    editVendor: state.vendor.editVendor,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   removeVendorLogin: () => {
     dispatch(removeVendorLogin());
+  },
+  VendorImageUpload: (data, progress, setProgress) => {
+    dispatch(VendorImageUpload(data, progress, setProgress));
   },
 });
 

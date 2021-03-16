@@ -1,0 +1,35 @@
+.image-upload {
+  width: 300px;
+  height: 200px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-upload > img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.imageupload {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  margin-top: 40px;
+  margin-bottom: 10px;
+  background-color: white;
+  border-bottom: 1px solid gray;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.imageupload > input {
+  margin: 5px;
+}
+.imageupload-progress {
+  width: 100%;
+  padding: 10px;
+}

@@ -7,6 +7,7 @@ import Login from "./reducers/login";
 import RVendor from "./reducers/RVendor";
 import RVendortype from "./reducers/RVendortype";
 import VendorLogin from "./reducers/VendorLogin";
+import RMyBooking from "./reducers/RMybooking";
 
 const config = {
   key: "root",
@@ -21,6 +22,7 @@ export const configureStore = () => {
       vendorLogin: VendorLogin,
       vendor: RVendor,
       vendortype: RVendortype,
+      myBooking: RMyBooking,
     }),
     applyMiddleware(thunk, logger)
   );

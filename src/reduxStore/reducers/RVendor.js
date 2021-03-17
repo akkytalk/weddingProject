@@ -36,7 +36,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         editVendor: action.editVendor,
-        error: false,
+        error: action.error,
       };
 
     case actionType.UPDATE_VENDOR_DATA_START:

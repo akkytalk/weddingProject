@@ -18,9 +18,9 @@ function ReviewData(props) {
   useEffect(() => {
     console.log("currentUser data from redux ", currentUser);
 
-    props.onMyBookingGetData();
-    props.onMyBookingGetData();
-    props.onDeleteMyBooking();
+    props.onReviewGetData();
+    props.onReviewGetData();
+    props.onDeleteReview();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,27 +73,27 @@ function ReviewData(props) {
     setModal(!modal);
     setEditing(false);
   };
-
-  console.log("editVendor", props.editVendor);
-  console.log("mybooking", props.myBooking);
-  console.log("User data from ", user);
-  console.log("CurrentUser data from ", currentUser);
+console.log("props.review" , props.review)
+  // console.log("editVendor", props.editVendor);
+  // console.log("mybooking", props.review);
+  // console.log("User data from ", user);
+  // console.log("CurrentUser data from ", currentUser);
 
   return (
     //<div className="container-fluid">
     <Card>
       <CardHeader className="bg-warning text-white">
-        <strong>My Booking</strong>
-        <Button className="btn-success  float-right" onClick={toggle}>
+        <strong>Review</strong>
+        {/* <Button className="btn-success  float-right" onClick={toggle}>
           Add Booking
-        </Button>
+        </Button> */}
         <Modal className="modal-info modal-lg" isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Add New Booking</ModalHeader>
           <ModalBody>
             <form
               onSubmit={(event) => {
                 event.preventDefault();
-                props.onPostMyBookingData(user);
+                props.onPostReviewData(user);
               }}
             >
               <div className="form-row" style={{ fontSize: "12px" }}>
@@ -272,7 +272,7 @@ function ReviewData(props) {
                         className="btn btn-success"
                         type="button"
                         onClick={() => {
-                          props.onUpdateMyBookingData(
+                          props.onUpdateReviewData(
                             currentUser.id,
                             editing,
                             setEditing,
@@ -308,40 +308,40 @@ function ReviewData(props) {
             <tr>
               {/* <th>ID</th> */}
               <th scope="col">Customer Name</th>
-              <th scope="col">Booking Date</th>
-              <th scope="col">Booking Amount</th>
+              <th scope="col">Review</th>
+              {/* <th scope="col">Booking Amount</th>
 
-              <th scope="col">Advance Amount</th>
+              <th scope="col">Advance Amount</th> */}
 
               {/* <th scope="col">Remarks</th>
               <th scope="col">Reference</th>
               <th scope="col">Menu</th> */}
-              <th scope="col">Morning Booking</th>
+              {/* <th scope="col">Morning Booking</th>
               <th scope="col">Night Booking</th>
               <th scope="col">Actions</th>
-              <th scope="col">Invoice</th>
+              <th scope="col">Invoice</th> */}
             </tr>
           </thead>
           <tbody>
-            {props.myBooking?.length > 0 ? (
-              props.myBooking?.map((user) => (
+            {props.review?.length > 0 ? (
+              props.review?.map((user) => (
                 <tr key={user.id}>
                   {/* <td>{user.id}</td> */}
-                  <td>{user.user.name}</td>
-                  <td>{user.booking_date}</td>
-                  <td>{user.booking_amount}</td>
-                  <td>{user.advance_amount}</td>
+                  <td>{user?.user?.name}</td>
+                  <td>{user.review}</td>
+                  {/* <td>{user.booking_amount}</td>
+                  <td>{user.advance_amount}</td> */}
                   {/* <td>{user.remarks}</td>
                   <td>{user.reference}</td>
                   <td>{user.menu}</td> */}
-                  <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
-                  <td>{user.night_status == 1 ? "booked" : "not booked"}</td>
+                  {/* <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
+                  <td>{user.night_status == 1 ? "booked" : "not booked"}</td> */}
 
                   <td className="d-flex">
-                    <button
+                    {/* <button
                       className="btn-info"
                       onClick={() => {
-                        props.onEditMyBookingRow(
+                        props.onEditReviewRow(
                           user.id,
                           editing,
                           setEditing,
@@ -352,7 +352,7 @@ function ReviewData(props) {
                       }}
                     >
                       <i className="fa fa-edit" aria-hidden="true"></i>
-                    </button>
+                    </button> */}
 
                     {/* <button
                       className="ml-3"
@@ -362,7 +362,7 @@ function ReviewData(props) {
                             "Are you sure you wish to delete this Account Group?"
                           )
                         )
-                          props.onDeleteMyBooking(user.id);
+                          props.onDeleteReview(user.id);
                       }}
                     >
                       <i
@@ -372,10 +372,10 @@ function ReviewData(props) {
                       ></i>
                     </button> */}
                   </td>
-                  <td>
+                  {/* <td>
                     {" "}
                     <button className="btn-warning btn-sm">Generate</button>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             ) : (
@@ -392,17 +392,18 @@ function ReviewData(props) {
 
 const mapStateToProps = (state) => {
   return {
-    myBooking: state.myBooking.myBooking,
+    review: state.review.review,
     editVendor: state.vendor.editVendor,
+    //review: state.review
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onMyBookingGetData: () => dispatch(actions.myBookingGetData()),
-    onDeleteMyBooking: (id) => dispatch(actions.deleteMyBooking(id)),
-    onPostMyBookingData: (user) => dispatch(actions.postMyBookingData(user)),
-    onUpdateMyBookingData: (
+    onReviewGetData: () => dispatch(actions.reviewGetData()),
+    onDeleteReview: (id) => dispatch(actions.deleteReview(id)),
+    onPostReviewData: (user) => dispatch(actions.postReviewData(user)),
+    onUpdateReviewData: (
       id,
       editing,
       setEditing,
@@ -410,7 +411,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.updateMyBookingData(
+        actions.updateReviewData(
           id,
           editing,
           setEditing,
@@ -418,7 +419,7 @@ const mapDispatchToProps = (dispatch) => {
           setCurrentUser
         )
       ),
-    onEditMyBookingRow: (
+    onEditReviewRow: (
       id,
       editing,
       setEditing,
@@ -426,7 +427,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.editMyBookingRow(
+        actions.editReviewRow(
           id,
           editing,
           setEditing,

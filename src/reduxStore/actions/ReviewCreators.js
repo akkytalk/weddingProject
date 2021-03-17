@@ -2,100 +2,100 @@ import * as actionType from "./ActionType";
 import axios from "../../axios";
 import swal from "sweetalert";
 
-export const myBookingSetData = (myBooking) => {
+export const reviewSetData = (review) => {
   return {
-    type: actionType.MYBOOKING_SET_DATA,
-    myBooking: myBooking,
+    type: actionType.REVIEW_SET_DATA,
+    review: review,
   };
 };
 
-export const myBookingFailData = (error) => {
+export const reviewFailData = (error) => {
   return {
-    type: actionType.MYBOOKING_FAIL_DATA,
+    type: actionType.REVIEW_FAIL_DATA,
     error:error
   };
 };
 
-export const myBookingGetData = () => {
+export const reviewGetData = () => {
   return (dispatch) => {
     axios
-      .get("transactions")
+      .get("feedbacks")
       .then((res) => {
         console.log(res.data, "res");
-        dispatch(myBookingSetData(res.data));
+        dispatch(reviewSetData(res.data));
       })
 
-      .catch((error) => dispatch(myBookingFailData(error)));
+      .catch((error) => dispatch(reviewFailData(error)));
   };
 };
 
-export const deleteMyBookingFail = () => {
+export const deleteReviewFail = () => {
   return {
-    type: actionType.DELETE_MYBOOKING_FAIL,
+    type: actionType.DELETE_REVIEW_FAIL,
   };
 };
 
-export const deleteMyBooking = (id) => {
+export const deleteReview = (id) => {
   return (dispatch) => {
     if (id) {
       axios
-        .delete(`transactions/${id}`)
+        .delete(`feedbacks/${id}`)
         .then(() => {
           console.log("swal");
           swal("Successfully Deleted Booking!").then(() => {
             window.location.reload();
           });
         })
-        .catch((error) => dispatch(deleteMyBookingFail()));
+        .catch((error) => dispatch(deleteReviewFail()));
     }
   };
 };
 
-export const postMyBookingDataStart = () => {
+export const postReviewDataStart = () => {
   return {
-    type: actionType.POST_MYBOOKING_DATA_START,
+    type: actionType.POST_REVIEW_DATA_START,
   };
 };
 
-export const postMyBookingDataFail = (error) => {
+export const postReviewDataFail = (error) => {
   return {
-    type: actionType.POST_MYBOOKING_DATA_FAIL,
+    type: actionType.POST_REVIEW_DATA_FAIL,
     error: error
   };
 };
 
-export const postMyBookingData = (user) => {
+export const postReviewData = (user) => {
   return (dispatch) => {
     //if (!user.name) return;
 
-    dispatch(postMyBookingDataStart());
+    dispatch(postReviewDataStart());
     axios
-      .post("transactions", user)
+      .post("feedbacks", user)
       .then(() => {
         console.log("swal");
         swal("Successfully Created My Booking!").then(() => {
           window.location.reload();
         });
       })
-      .catch((error) => dispatch(postMyBookingDataFail()));
+      .catch((error) => dispatch(postReviewDataFail()));
     // props.addUser(user);
     // setUser(initialFormState);
   };
 };
 
-export const editMyBookingRowStart = () => {
+export const editReviewRowStart = () => {
   return {
-    type: actionType.EDIT_MYBOOKING_ROW_START,
+    type: actionType.EDIT_REVIEW_ROW_START,
   };
 };
 
-export const failEditMyBooking = () => {
+export const failEditReview = () => {
   return {
-    type: actionType.FAIL_EDIT_MYBOOKING,
+    type: actionType.FAIL_EDIT_REVIEW,
   };
 };
 
-export const editMyBookingRow = (
+export const editReviewRow = (
   id,
   editing,
   setEditing,
@@ -103,10 +103,10 @@ export const editMyBookingRow = (
   setCurrentUser
 ) => {
   return (dispatch) => {
-    dispatch(editMyBookingRowStart());
+    dispatch(editReviewRowStart());
     setEditing(true);
     axios
-      .get(`transactions/${id}`)
+      .get(`feedbacks/${id}`)
       .then((res) => {
         console.log(res.data, "editing data res");
         setEditing(res.data);
@@ -125,17 +125,17 @@ export const editMyBookingRow = (
           night_status: res.data.night_status,
         });
       })
-      .catch((error) => dispatch(failEditMyBooking(error)));
+      .catch((error) => dispatch(failEditReview(error)));
   };
 };
 
-export const updateMyBookingDataStart = () => {
+export const updateReviewDataStart = () => {
   return {
-    type: actionType.UPDATE_MYBOOKING_DATA_START,
+    type: actionType.UPDATE_REVIEW_DATA_START,
   };
 };
 
-export const updateMyBookingData = (
+export const updateReviewData = (
   id,
   editing,
   setEditing,
@@ -143,15 +143,15 @@ export const updateMyBookingData = (
   setCurrentUser
 ) => {
   return (dispatch) => {
-    dispatch(updateMyBookingDataStart());
+    dispatch(updateReviewDataStart());
     setEditing(false);
     console.log("Id", id);
     console.log("currentUser", currentUser);
     axios
-      .put(`transactions/${id}`, currentUser)
+      .put(`feedbacks/${id}`, currentUser)
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated MyBooking details!").then(() => {
+        swal("Successfully Updated Review details!").then(() => {
           window.location.reload();
         });
       })

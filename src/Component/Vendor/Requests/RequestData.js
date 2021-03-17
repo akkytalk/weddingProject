@@ -327,7 +327,7 @@ function RequestData(props) {
               props.myBooking?.map((user) => (
                 <tr key={user.id}>
                   {/* <td>{user.id}</td> */}
-                  <td>{user.user.name}</td>
+                  <td>{user?.user?.name}</td>
                   <td>{user.booking_date}</td>
                   <td>{user.booking_amount}</td>
                   <td>{user.advance_amount}</td>

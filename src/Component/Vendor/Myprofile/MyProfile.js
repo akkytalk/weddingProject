@@ -11,6 +11,7 @@ import "./MyProfile.css";
 
 import { Button } from "reactstrap";
 import { VendorImageUpload } from "../../../reduxStore/actions/vendorCreator";
+import axios from "../../../axios";
 
 const MyProfile = (props) => {
   const handleLogout = async () => {
@@ -20,32 +21,63 @@ const MyProfile = (props) => {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState({});
 
-  let fd = new FormData();
+  let formData = new FormData();
   const handleChange = (e) => {
-    // console.log("e.target.files[0]", e.target.files[0]);
-    // if (e.target.files[0]) {
-    //   setImage(e.target.files[0]);
-    // }
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+            return;
+    console.log("e.target.files[0]",files[0]);
+    
+      setImage(files[0]);
+    
 
-    let images = e.target.files;
-    console.log("test1", images[0]);
+    // let images = e.target.files;
+    // console.log("test1", images[0]);
 
-    // fd.append("file", images[0]);
-    fd = { ...fd, file: images[0] };
-    setImage(fd.file);
-    // image.append(fd);
-    image = { ...image, fd };
-    console.log("images", image);
+    // // fd.append("file", images[0]);
+    // fd = { ...fd, file: images[0] };
+    // setImage(fd.file);
+    // // image.append(fd);
+    // iz
+    // console.log("images", image);
   };
+
+
+ const createImage = (file) => {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      
+      setImage(e.target.result)
+      
+      
+    };
+    reader.readAsDataURL(file);
+  }
+
 
   async function handleUpload(e) {
     e.preventDefault();
-    let data = {
-      id: props.editVendor?.id,
-      file: fd.file,
-    };
-    console.log("data 31", data);
-    props.VendorImageUpload(data, progress, setProgress);
+      
+    console.log('images 60', image);
+
+     formData = {file:image}
+
+    const id = props.editVendor.id;
+
+    console.log('id', id);
+
+
+    return  axios.post(`updateImage/${id}?_method=PUT`, formData)
+    .then(response => console.log(response))
+    .catch((error) => {
+      console.log(error.response);
+    });
+    // let data = {
+    //   id: props.editVendor?.id,
+    //   file: fd.file,
+    // };
+  //  console.log("data 31", data);
+   // props.VendorImageUpload(data, progress, setProgress);
   }
   console.log("props.editVendor", props.editVendor);
 
@@ -388,7 +420,7 @@ const MyProfile = (props) => {
                       onChange={handleChange}
                       formEncType="multipart/form-data"
                     /> */}
-                    <form onSubmit={handleUpload} encType="multipart/form-data">
+                    <form onSubmit={handleUpload} >
                       <input
                         type="file"
                         name="file"

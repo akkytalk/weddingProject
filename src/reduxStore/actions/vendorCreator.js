@@ -94,9 +94,10 @@ export const editVendorSetData = (editVendor) => {
   };
 };
 
-export const failEditVendor = () => {
+export const failEditVendor = (error) => {
   return {
     type: actionType.FAIL_EDIT_VENDOR,
+    error: error
   };
 };
 
@@ -111,8 +112,9 @@ export const editVendorRow = (id, vendor, setVendor) => {
         // setEditing(res.data);
         setVendor(res.data);
         dispatch(editVendorSetData(res.data));
+        console.log("editVendor data from", res.data)
       })
-      .catch((error) => dispatch(failEditVendor()));
+      .catch((error) => dispatch(failEditVendor(error)));
   };
 };
 

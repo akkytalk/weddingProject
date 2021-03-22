@@ -73,7 +73,7 @@ function ReviewData(props) {
     setModal(!modal);
     setEditing(false);
   };
-console.log("props.review" , props.review)
+  console.log("props.review", props.review);
   // console.log("editVendor", props.editVendor);
   // console.log("mybooking", props.review);
   // console.log("User data from ", user);
@@ -419,13 +419,7 @@ const mapDispatchToProps = (dispatch) => {
           setCurrentUser
         )
       ),
-    onEditReviewRow: (
-      id,
-      editing,
-      setEditing,
-      currentUser,
-      setCurrentUser
-    ) =>
+    onEditReviewRow: (id, editing, setEditing, currentUser, setCurrentUser) =>
       dispatch(
         actions.editReviewRow(
           id,

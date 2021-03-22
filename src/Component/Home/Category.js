@@ -10,29 +10,141 @@ import Footer from "./Footer";
 import * as actions from "../../reduxStore/actions";
 import Header from "./Header";
 import { connect } from "react-redux";
+import Rating from "@material-ui/lab/Rating";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    "& > * + *": {
+      marginTop: theme.spacing(1),
+    },
+  },
+}));
 
 const Category = (props) => {
   const params = useParams();
-
+  const classes = useStyles();
   console.log("params", params);
+
+  const [vendor, setVendor] = useState([]);
 
   useEffect(() => {
     props.onVendorGetData();
     props.onVendortypeGetData();
+    props.editVendorRow(params.id, vendor, setVendor);
   }, []);
 
   const [vendorUser, setVendorUser] = useState([]);
-
   useEffect(() => {
     props.vendor.map((ven) => {
       if (ven.id == params.id) {
-        console.log("hii successful");
+        // console.log("hii successful");
         setVendorUser(ven);
       }
     });
   }, []);
 
-  console.log("vendor user", vendorUser);
+  const [user, setUser] = useState({
+    vendor_name: props.editVendor?.name,
+    vendor_type_id: props.editVendor?.vendor_type?.id,
+    user_name: "",
+    review: "",
+    rating: "",
+  });
+
+  const [user2, setUser2] = useState({
+    vendor_name: props.editVendor?.name,
+    vendor_type_name: props.editVendor?.vendor_type?.name,
+    user_name: "",
+    phone: "",
+    booking_date: "",
+    remarks: "",
+    status: 0,
+    entered_by: "user",
+  });
+
+  const [user3, setUser3] = useState({
+    vendor_name: props.editVendor?.name,
+    vendor_type_name: props.editVendor?.vendor_type?.name,
+    user_name: "",
+    phone: "",
+    booking_date: "",
+    remarks: "",
+    status: 1,
+    entered_by: "user",
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleInputChange2 = (event) => {
+    const { name, value } = event.target;
+    setUser2({ ...user2, [name]: value });
+  };
+
+  const handleInputChange3 = (event) => {
+    const { name, value } = event.target;
+    setUser3({ ...user3, [name]: value });
+  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let data = {
+      vendor_name: props.editVendor?.name,
+      vendor_type_id: props.editVendor?.vendor_type?.id,
+      user_name: user.user_name,
+      review: user.review,
+      rating: user.rating,
+    };
+
+    console.log("user", data);
+
+    props.onPostReviewData(data);
+  }
+
+  async function handleSubmit2(e) {
+    e.preventDefault();
+
+    let user = {
+      vendor_name: props.editVendor?.name,
+      vendor_type_name: props.editVendor?.vendor_type?.name,
+      user_name: user2.user_name,
+      phone: user2.phone,
+      booking_date: user2.booking_date,
+      remarks: user2.remarks,
+      status: 0,
+      entered_by: "user",
+    };
+
+    console.log("user", user);
+
+    props.postMyBookingData(user);
+  }
+
+  async function handleSubmit3(e) {
+    e.preventDefault();
+
+    let user = {
+      vendor_name: props.editVendor?.name,
+      vendor_type_name: props.editVendor?.vendor_type?.name,
+      user_name: user3.user_name,
+      phone: user3.phone,
+      booking_date: user3.booking_date,
+      remarks: user3.remarks,
+      status: 1,
+      entered_by: "user",
+    };
+
+    console.log("user", user);
+
+    props.postMyBookingData(user);
+  }
+  console.log("user", user);
+  console.log("user2", user2);
+  console.log("user3", user3);
 
   return (
     <Fragment>
@@ -40,7 +152,7 @@ const Category = (props) => {
       <Image />
       {/*  */}
       <div>
-        <div className="list-single-carousel">
+        {/* <div className="list-single-carousel">
           <div className="owl-carousel owl-theme owl-slider">
             <div className="item">
               <img src="images/listsingle-slider-img-1.jpg" alt="" />
@@ -55,7 +167,7 @@ const Category = (props) => {
               <img src="images/listsingle-slider-img-4.jpg" alt="" />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="list-single-second">
           <div className="container">
@@ -72,12 +184,12 @@ const Category = (props) => {
                   </div>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                  <div className="vendor-head text-xl-right">
-                    <a href="#" className="btn-default-wishlist">
+                  {/* <div className="vendor-head text-xl-right">
+                    <a href="" className="btn-default-wishlist">
                       <i className="fa fa-heart" />{" "}
                       <span className="pl-1">Add To Wishlist</span>
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -94,13 +206,28 @@ const Category = (props) => {
               </div>
               <div className="vendor-meta-item vendor-meta-item-bordered">
                 <span className="rating-star">
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={
+                      props.editVendor?.rating ? props.editVendor?.rating : 0
+                    }
+                    precision={0.1}
+                    readOnly
+                  />
+
+                  {/* <i className="fa fa-star rated" />
                   <i className="fa fa-star rated" />
                   <i className="fa fa-star rated" />
                   <i className="fa fa-star rated" />
-                  <i className="fa fa-star rated" />
-                  <i className="fa fa-star rate-mute" />
+                  <i className="fa fa-star rate-mute" /> */}
                 </span>
-                <span className="rating-count vendor-text">(20)</span>
+                <span className="rating-count vendor-text">
+                  (
+                  {props.editVendor?.no_reviews
+                    ? props.editVendor?.no_reviews
+                    : 0}
+                  )
+                </span>
               </div>
             </div>
           </div>
@@ -137,11 +264,17 @@ const Category = (props) => {
                           </h5>
                           <div className="given-review">
                             <span className="rated">
-                              <i className="fa fa-star" />{" "}
-                              <i className="fa fa-star" />{" "}
-                              <i className="fa fa-star" />{" "}
-                              <i className="far  fa-star" />{" "}
-                              <i className="far  fa-star" />
+                              <Rating
+                                name="half-rating-read"
+                                defaultValue={
+                                  props.editVendor?.rating
+                                    ? props.editVendor?.rating
+                                    : 0
+                                }
+                                precision={0.1}
+                                readOnly
+                                size="small"
+                              />
                             </span>
                           </div>
                         </div>
@@ -151,15 +284,7 @@ const Category = (props) => {
                     <div className="card-body">
                       {/* review-descripttions */}
                       <div className="review-descriptions">
-                        <p>
-                          Morbi pharetra mollis tortor ac maximus. Nunc dapibus
-                          bibendum urna, in egestas dolor. Class aptent taciti
-                          sociosqu ad litora torquent per conubia nostra.Fusce
-                          ullamcorper sit amet augue a volutpat. Cras ultrices
-                          dictum ante vel iaculis.Donec accumsan consequat massa
-                          non gravida. Aenean molestie molestie elementum.
-                          Nullam semper vel mauris et semper.{" "}
-                        </p>
+                        <p>{vendorUser.about}</p>
                       </div>
                       {/* /.review-descripttions */}
                     </div>
@@ -195,7 +320,7 @@ const Category = (props) => {
                         <span id="rateYo5" />
                       </div>
                     </div>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                       <div className="row">
                         {/* Textarea */}
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt30">
@@ -210,27 +335,60 @@ const Category = (props) => {
                               rows={5}
                               placeholder="Write Review"
                               defaultValue={""}
+                              value={user.review}
+                              onChange={handleInputChange}
                             />
                           </div>
                         </div>
                         {/* Text input*/}
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                           <div className="form-group">
-                            <label className="control-label" htmlFor="name">
+                            <label
+                              className="control-label"
+                              htmlFor="user_name"
+                            >
                               Name
                             </label>
                             <input
-                              id="name"
-                              name="name"
+                              id="user_name"
+                              name="user_name"
                               type="text"
                               placeholder="Name"
+                              value={user.user_name}
+                              onChange={handleInputChange}
                               className="form-control input-md"
                               required
                             />
                           </div>
                         </div>
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 vh-100 w-100">
+                          <div className="form-group">
+                            <label
+                              className="control-label"
+                              htmlFor="user_name"
+                            >
+                              Give Rating
+                            </label>
+                            <div className={classes.root}>
+                              <Rating
+                                name="rating"
+                                size="large"
+                                type="number"
+                                typeof="number"
+                                //value={user.rating}
+                                onChange={handleInputChange}
+                              />
+                              {/* <Rating
+                            name="half-rating-read"
+                            defaultValue={2.4}
+                            precision={0.1}
+                            readOnly
+                          /> */}
+                            </div>
+                          </div>
+                        </div>
                         {/* Text input*/}
-                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                           <div className="form-group">
                             <label className="control-label" htmlFor="email">
                               Email
@@ -244,7 +402,7 @@ const Category = (props) => {
                               required
                             />
                           </div>
-                        </div>
+                        </div> */}
                         {/* Button */}
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                           <div className="form-group">
@@ -278,7 +436,7 @@ const Category = (props) => {
                 <div className="sidebar-venue">
                   <div className="card">
                     <div className="card-body">
-                      <form>
+                      <form onSubmit={handleSubmit2}>
                         <div className="row">
                           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 className="mb20">Request Quote</h3>
@@ -288,40 +446,23 @@ const Category = (props) => {
                             <div className="form-group">
                               <label
                                 className="control-label sr-only"
-                                htmlFor="name1"
+                                htmlFor="user_name"
                               >
                                 Name
                               </label>
                               <input
-                                id="name1"
-                                name="name1"
+                                id="user_name"
+                                name="user_name"
                                 type="text"
                                 placeholder="Name"
+                                value={user2.user_name}
+                                onChange={handleInputChange2}
                                 className="form-control input-md"
                                 required
                               />
                             </div>
                           </div>
-                          {/* Text input*/}
-                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div className="form-group">
-                              <label
-                                className=" control-label sr-only"
-                                htmlFor="email2"
-                              >
-                                Email
-                              </label>
-                              <input
-                                id="email2"
-                                name="email2"
-                                type="text"
-                                placeholder="Email"
-                                className="form-control input-md"
-                                required
-                              />
-                            </div>
-                          </div>
-                          {/* Text input*/}
+
                           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div className="form-group">
                               <label
@@ -333,7 +474,9 @@ const Category = (props) => {
                               <input
                                 id="phone"
                                 name="phone"
-                                type="text"
+                                type="number"
+                                value={user2.phone}
+                                onChange={handleInputChange2}
                                 placeholder="Phone"
                                 className="form-control input-md"
                                 required
@@ -345,21 +488,23 @@ const Category = (props) => {
                             <div className="form-group">
                               <label
                                 className="control-label sr-only"
-                                htmlFor="weddingdate"
+                                htmlFor="booking_date"
                               >
                                 Wedding Date
                               </label>
                               <input
-                                id="weddingdate"
-                                name="weddingdate"
-                                type="text"
+                                id="booking_date"
+                                name="booking_date"
+                                type="date"
+                                value={user2.booking_date}
+                                onChange={handleInputChange2}
                                 placeholder="Wedding Date"
                                 className="form-control input-md"
                                 required
                               />
-                              <div className="venue-form-calendar">
+                              {/* <div className="venue-form-calendar">
                                 <i className="far fa-calendar-alt" />
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           {/* Textarea */}
@@ -367,15 +512,17 @@ const Category = (props) => {
                             <div className="form-group">
                               <label
                                 className="control-label sr-only"
-                                htmlFor="comments"
+                                htmlFor="remarks"
                               >
                                 Comment
                               </label>
                               <textarea
                                 className="form-control"
-                                id="comments"
-                                name="comments"
+                                id="remarks"
+                                name="remarks"
                                 rows={5}
+                                value={user2.remarks}
+                                onChange={handleInputChange2}
                                 placeholder="Write Comment"
                                 defaultValue={""}
                               />
@@ -388,6 +535,115 @@ const Category = (props) => {
                                 className="btn btn-default btn-block"
                               >
                                 Submit Quote
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div className="card">
+                    <div className="card-body">
+                      <form onSubmit={handleSubmit3}>
+                        <div className="row">
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h3 className="mb20">Book Now</h3>
+                          </div>
+                          {/* Text input*/}
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div className="form-group">
+                              <label
+                                className="control-label sr-only"
+                                htmlFor="user_name"
+                              >
+                                Name
+                              </label>
+                              <input
+                                id="user_name"
+                                name="user_name"
+                                type="text"
+                                placeholder="Name"
+                                value={user3.user_name}
+                                onChange={handleInputChange3}
+                                className="form-control input-md"
+                                required
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div className="form-group">
+                              <label
+                                className=" control-label sr-only"
+                                htmlFor="phone"
+                              >
+                                Phone
+                              </label>
+                              <input
+                                id="phone"
+                                name="phone"
+                                type="number"
+                                value={user3.phone}
+                                onChange={handleInputChange3}
+                                placeholder="Phone"
+                                className="form-control input-md"
+                                required
+                              />
+                            </div>
+                          </div>
+                          {/* Text input*/}
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div className="form-group">
+                              <label
+                                className="control-label sr-only"
+                                htmlFor="booking_date"
+                              >
+                                Wedding Date
+                              </label>
+                              <input
+                                id="booking_date"
+                                name="booking_date"
+                                type="date"
+                                value={user3.booking_date}
+                                onChange={handleInputChange3}
+                                placeholder="Wedding Date"
+                                className="form-control input-md"
+                                required
+                              />
+                              {/* <div className="venue-form-calendar">
+                                <i className="far fa-calendar-alt" />
+                              </div> */}
+                            </div>
+                          </div>
+                          {/* Textarea */}
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div className="form-group">
+                              <label
+                                className="control-label sr-only"
+                                htmlFor="remarks"
+                              >
+                                Comment
+                              </label>
+                              <textarea
+                                className="form-control"
+                                id="remarks"
+                                name="remarks"
+                                rows={5}
+                                value={user3.remarks}
+                                onChange={handleInputChange3}
+                                placeholder="Write Comment"
+                                defaultValue={""}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div className="form-group">
+                              <button
+                                type="submit"
+                                className="btn btn-default btn-block"
+                              >
+                                Book Now
                               </button>
                             </div>
                           </div>
@@ -494,12 +750,19 @@ const mapStateToProps = (state) => {
   return {
     vendor: state.vendor.vendor,
     vendortype: state.vendortype.vendortype,
+    review: state.review.review,
+    editVendor: state.vendor.editVendor,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onVendorGetData: () => dispatch(actions.vendorGetData()),
   onVendortypeGetData: () => dispatch(actions.vendortypeGetData()),
+  onPostReviewData: (user) => dispatch(actions.postReviewData(user)),
+  postMyBookingData: (user) => dispatch(actions.postMyBookingData(user)),
+  editVendorRow: (id, vendor, setVendor) => {
+    dispatch(actions.editVendorRow(id, vendor, setVendor));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

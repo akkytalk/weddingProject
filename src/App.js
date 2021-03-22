@@ -47,7 +47,8 @@ const App = () => {
               <Route path="/contact" component={Contact} />
               <Route path="/vendor" component={Form} />
               <Route path="/vendorprofile" component={Cat} />
-              <Route path="/samplepage" component={SamplePage} />
+              <Route path="/venuedetail" exact component={SamplePage} />
+              <Route path="/venuedetail/:id" component={SamplePage} />
               <Route path="/login" component={UserLogin} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/vendorlist" component={Listing} />

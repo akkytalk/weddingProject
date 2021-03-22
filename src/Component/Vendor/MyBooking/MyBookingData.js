@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import * as actions from "../../../reduxStore/actions";
 
@@ -27,15 +28,18 @@ function MyBookingData(props) {
   const [user, setUser] = useState({
     vendor_name: props.editVendor?.name,
     vendor_type_name: props.editVendor?.vendor_type?.name,
-    user_name: "",
+    customer_name: "",
     booking_date: "",
     booking_amount: "",
     advance_amount: "",
+    phone: "",
     remarks: "",
     reference: "",
     menu: "",
     morning_status: "",
     night_status: "",
+    status: 1,
+    entered_by: "vendor",
   });
 
   const [editing, setEditing] = useState(false);
@@ -45,9 +49,11 @@ function MyBookingData(props) {
     vendor_name: props.editVendor?.name,
     vendor_type_name: props.editVendor?.vendor_type?.name,
     user_name: "",
+    customer_name: "",
     booking_date: "",
     booking_amount: "",
     advance_amount: "",
+    phone: "",
     remarks: "",
     reference: "",
     menu: "",
@@ -104,8 +110,14 @@ function MyBookingData(props) {
                     className="form-control"
                     id="inputPassword4"
                     placeholder=""
-                    value={!editing ? user.user_name : currentUser?.user_name}
-                    name="user_name"
+                    value={
+                      !editing
+                        ? user.customer_name
+                        : currentUser?.customer_name
+                        ? currentUser?.customer_name
+                        : currentUser?.user_name
+                    }
+                    name="customer_name"
                     onChange={
                       editing ? currentUserInputChange : handleInputChange
                     }
@@ -166,8 +178,24 @@ function MyBookingData(props) {
                     }
                   />
                 </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="inputPassword4"> Mobile No </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="inputPassword4"
+                    placeholder=""
+                    value={
+                      !editing ? user.phone : Math.floor(currentUser.phone)
+                    }
+                    name="phone"
+                    onChange={
+                      editing ? currentUserInputChange : handleInputChange
+                    }
+                  />
+                </div>
 
-                <div className="form-group col-md-12">
+                <div className="form-group col-md-6">
                   <label htmlFor="inputPassword4"> Remarks </label>
                   <textarea
                     type="text"
@@ -318,43 +346,55 @@ function MyBookingData(props) {
               <th scope="col">Menu</th> */}
               <th scope="col">Morning Booking</th>
               <th scope="col">Night Booking</th>
+              <th scope="col">By</th>
               <th scope="col">Actions</th>
               <th scope="col">Invoice</th>
             </tr>
           </thead>
           <tbody>
             {props.myBooking?.length > 0 ? (
-              props.myBooking?.map((user) => (
-                <tr key={user.id}>
-                  {/* <td>{user.id}</td> */}
-                  <td>{user.user?.name}</td>
-                  <td>{user.booking_date}</td>
-                  <td>{user.booking_amount}</td>
-                  <td>{user.advance_amount}</td>
-                  {/* <td>{user.remarks}</td>
+              props.myBooking?.map((user) => {
+                if (user.vendor_id == props.editVendor?.id && user.status == 1)
+                  return (
+                    <tr key={user.id}>
+                      {/* <td>{user.id}</td> */}
+                      <td>
+                        {user.customer_name
+                          ? user.customer_name
+                          : user?.user?.name}
+                      </td>
+                      <td>{user.booking_date}</td>
+                      <td>{user.booking_amount}</td>
+                      <td>{user.advance_amount}</td>
+                      {/* <td>{user.remarks}</td>
                   <td>{user.reference}</td>
                   <td>{user.menu}</td> */}
-               8770fca6   <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
-                  <td>{user.night_status == 1 ? "booked" : "not booked"}</td>
 
-                  <td className="d-flex">
-                    <button
-                      className="btn-info"
-                      onClick={() => {
-                        props.onEditMyBookingRow(
-                          user.id,
-                          editing,
-                          setEditing,
-                          currentUser,
-                          setCurrentUser
-                        );
-                        toggle();
-                      }}
-                    >
-                      <i className="fa fa-edit" aria-hidden="true"></i>
-                    </button>
+                      <td>
+                        {user.morning_status == 1 ? "booked" : "not booked"}
+                      </td>
+                      <td>
+                        {user.night_status == 1 ? "booked" : "not booked"}
+                      </td>
+                      <td>{user.entered_by}</td>
+                      <td className="d-flex">
+                        <button
+                          className="btn-info"
+                          onClick={() => {
+                            props.onEditMyBookingRow(
+                              user.id,
+                              editing,
+                              setEditing,
+                              currentUser,
+                              setCurrentUser
+                            );
+                            toggle();
+                          }}
+                        >
+                          <i className="fa fa-edit" aria-hidden="true"></i>
+                        </button>
 
-                    {/* <button
+                        {/* <button
                       className="ml-3"
                       onClick={() => {
                         if (
@@ -371,16 +411,17 @@ function MyBookingData(props) {
                         aria-hidden="true"
                       ></i>
                     </button> */}
-                  </td>
-                  <td>
-                    {" "}
-                    <button className="btn-warning btn-sm">Generate</button>
-                  </td>
-                </tr>
-              ))
+                      </td>
+                      <td>
+                        {" "}
+                        <button className="btn-warning btn-sm">Generate</button>
+                      </td>
+                    </tr>
+                  );
+              })
             ) : (
               <tr>
-                <td colSpan={3}>No users</td>
+                <td colSpan={3}>No Requests are available</td>
               </tr>
             )}
           </tbody>

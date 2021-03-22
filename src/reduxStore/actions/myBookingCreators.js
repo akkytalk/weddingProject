@@ -12,7 +12,7 @@ export const myBookingSetData = (myBooking) => {
 export const myBookingFailData = (error) => {
   return {
     type: actionType.MYBOOKING_FAIL_DATA,
-    error:error
+    error: error,
   };
 };
 
@@ -60,7 +60,7 @@ export const postMyBookingDataStart = () => {
 export const postMyBookingDataFail = (error) => {
   return {
     type: actionType.POST_MYBOOKING_DATA_FAIL,
-    error: error
+    error: error,
   };
 };
 
@@ -73,11 +73,11 @@ export const postMyBookingData = (user) => {
       .post("transactions", user)
       .then(() => {
         console.log("swal");
-        swal("Successfully Created My Booking!").then(() => {
+        swal("Successfully Added Booking!").then(() => {
           window.location.reload();
         });
       })
-      .catch((error) => dispatch(postMyBookingDataFail()));
+      .catch((error) => dispatch(postMyBookingDataFail(error)));
     // props.addUser(user);
     // setUser(initialFormState);
   };
@@ -115,6 +115,7 @@ export const editMyBookingRow = (
           vendor_name: res.data.vendor.name,
           vendor_type_name: res.data.vendor_type.name,
           user_name: res.data.user.name,
+          customer_name: res.data.customer_name,
           booking_date: res.data.booking_date,
           booking_amount: res.data.booking_amount,
           advance_amount: res.data.advance_amount,

@@ -324,37 +324,43 @@ function RequestData(props) {
           </thead>
           <tbody>
             {props.myBooking?.length > 0 ? (
-              props.myBooking?.map((user) => (
-                <tr key={user.id}>
-                  {/* <td>{user.id}</td> */}
-                  <td>{user?.user?.name}</td>
-                  <td>{user.booking_date}</td>
-                  <td>{user.booking_amount}</td>
-                  <td>{user.advance_amount}</td>
-                  {/* <td>{user.remarks}</td>
+              props.myBooking?.map((user) => {
+                if (user.vendor_id == props.editVendor?.id && user.status == 0)
+                  return (
+                    <tr key={user.id}>
+                      {/* <td>{user.id}</td> */}
+                      <td>{user?.user?.name}</td>
+                      <td>{user.booking_date}</td>
+                      <td>{user.booking_amount}</td>
+                      <td>{user.advance_amount}</td>
+                      {/* <td>{user.remarks}</td>
                   <td>{user.reference}</td>
                   <td>{user.menu}</td> */}
-                  <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
-                  <td>{user.night_status == 1 ? "booked" : "not booked"}</td>
+                      <td>
+                        {user.morning_status == 1 ? "booked" : "not booked"}
+                      </td>
+                      <td>
+                        {user.night_status == 1 ? "booked" : "not booked"}
+                      </td>
 
-                  <td className="d-flex">
-                    <button
-                      className="btn-info"
-                      onClick={() => {
-                        props.onEditMyBookingRow(
-                          user.id,
-                          editing,
-                          setEditing,
-                          currentUser,
-                          setCurrentUser
-                        );
-                        toggle();
-                      }}
-                    >
-                      <i className="fa fa-edit" aria-hidden="true"></i>
-                    </button>
+                      <td className="d-flex">
+                        <button
+                          className="btn-info"
+                          onClick={() => {
+                            props.onEditMyBookingRow(
+                              user.id,
+                              editing,
+                              setEditing,
+                              currentUser,
+                              setCurrentUser
+                            );
+                            toggle();
+                          }}
+                        >
+                          <i className="fa fa-edit" aria-hidden="true"></i>
+                        </button>
 
-                    {/* <button
+                        {/* <button
                       className="ml-3"
                       onClick={() => {
                         if (
@@ -371,13 +377,14 @@ function RequestData(props) {
                         aria-hidden="true"
                       ></i>
                     </button> */}
-                  </td>
-                  <td>
-                    {" "}
-                    <button className="btn-warning btn-sm">Generate</button>
-                  </td>
-                </tr>
-              ))
+                      </td>
+                      <td>
+                        {" "}
+                        <button className="btn-warning btn-sm">Generate</button>
+                      </td>
+                    </tr>
+                  );
+              })
             ) : (
               <tr>
                 <td colSpan={3}>No users</td>

@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useEffect, useState } from "react";
@@ -243,71 +245,91 @@ const Venue = (props) => {
           </div>
           <div className="venue-thumbnail-carousel">
             <div className="owl-carousel owl-theme owl-venue-thumb">
+              {props.vendor.map((ven) => {
+                if (ven.vendor_type_id == 10)
+                  return (
+                    <div className="item">
+                      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className="vendor-thumbnail">
+                          {/* Vendor thumbnail */}
+                          <div className="vendor-img zoomimg">
+                            {/* Vendor img */}
+                            <Link to={`/venuedetail/${ven.id}`}>
+                              <img
+                                src={
+                                  ven?.photographs
+                                    ? `https://uditsolutions.in/mogachetest/storage/app/public/files/${ven.photographs}`
+                                    : "https://icon-library.com/images/no-profile-picture-icon/no-profile-picture-icon-21.jpg"
+                                }
+                                alt=""
+                                className="img-fluid"
+                              />
+                            </Link>
+                            {/* <div className="wishlist-sign">
+                              <a href="#" className="btn-wishlist">
+                                <i className="fa fa-heart" />
+                              </a>
+                            </div> */}
+                          </div>
+                          {/* /.Vendor img */}
+                          <div className="vendor-content">
+                            {/* Vendor Content */}
+                            <h2 className="vendor-title">
+                              <Link
+                                to={`/venuedetail/${ven.id}`}
+                                className="title"
+                              >
+                                {ven.name}
+                              </Link>
+                            </h2>
+                            <p className="vendor-address">
+                              <span className="vendor-address-icon">
+                                <i className="fa fa-map-marker-alt" />{" "}
+                              </span>{" "}
+                              {ven.address}
+                            </p>
+                          </div>
+                          {/* /.Vendor Content */}
+                          <div className="vendor-meta">
+                            <div className="vendor-meta-item vendor-meta-item-bordered">
+                              <span className="vendor-price">
+                                $
+                                {ven.package_price
+                                  ? ven.package_price
+                                  : "Not Sepecified"}
+                              </span>
+                              <span className="vendor-text">Start From</span>
+                            </div>
+                            <div className="vendor-meta-item vendor-meta-item-bordered">
+                              <span className="vendor-guest">120+</span>
+                              <span className="vendor-text">Guest</span>
+                            </div>
+                            <div className="vendor-meta-item vendor-meta-item-bordered">
+                              <span className="rating-star">
+                                <i className="fa fa-star rated" />
+                                <i className="fa fa-star rated" />
+                                <i className="fa fa-star rated" />
+                                <i className="fa fa-star rated" />
+                                <i className="fa fa-star rate-mute" />
+                              </span>
+                              <span className="rating-count vendor-text">
+                                (20)
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        {/* /.Vendor thumbnail */}
+                      </div>
+                    </div>
+                  );
+              })}
+              {/* 
               <div className="item">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="vendor-thumbnail">
-                    {/* Vendor thumbnail */}
+              
                     <div className="vendor-img zoomimg">
-                      {/* Vendor img */}
-                      <a href="#">
-                        <img
-                          src="images/vendor-img-1.jpg"
-                          alt=""
-                          className="img-fluid"
-                        />
-                      </a>
-                      <div className="wishlist-sign">
-                        <a href="#" className="btn-wishlist">
-                          <i className="fa fa-heart" />
-                        </a>
-                      </div>
-                    </div>
-                    {/* /.Vendor img */}
-                    <div className="vendor-content">
-                      {/* Vendor Content */}
-                      <h2 className="vendor-title">
-                        <a href="#" className="title">
-                          Wedding Venue Title Name
-                        </a>
-                      </h2>
-                      <p className="vendor-address">
-                        <span className="vendor-address-icon">
-                          <i className="fa fa-map-marker-alt" />{" "}
-                        </span>{" "}
-                        Ahmedabad, Gujarat.
-                      </p>
-                    </div>
-                    {/* /.Vendor Content */}
-                    <div className="vendor-meta">
-                      <div className="vendor-meta-item vendor-meta-item-bordered">
-                        <span className="vendor-price">$150</span>
-                        <span className="vendor-text">Start From</span>
-                      </div>
-                      <div className="vendor-meta-item vendor-meta-item-bordered">
-                        <span className="vendor-guest">120+</span>
-                        <span className="vendor-text">Guest</span>
-                      </div>
-                      <div className="vendor-meta-item vendor-meta-item-bordered">
-                        <span className="rating-star">
-                          <i className="fa fa-star rated" />
-                          <i className="fa fa-star rated" />
-                          <i className="fa fa-star rated" />
-                          <i className="fa fa-star rated" />
-                          <i className="fa fa-star rate-mute" />
-                        </span>
-                        <span className="rating-count vendor-text">(20)</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* /.Vendor thumbnail */}
-                </div>
-              </div>
-              <div className="item">
-                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <div className="vendor-thumbnail">
-                    {/* Vendor thumbnail */}
-                    <div className="vendor-img zoomimg">
-                      {/* Vendor img */}
+                      
                       <a href="#">
                         <img
                           src="images/vendor-img-2.jpg"
@@ -321,9 +343,9 @@ const Venue = (props) => {
                         </a>
                       </div>
                     </div>
-                    {/* /.Vendor img */}
+                  
                     <div className="vendor-content">
-                      {/* Vendor Content */}
+                   
                       <h2 className="vendor-title">
                         <a href="#" className="title">
                           Wedding Venue Title Name
@@ -336,7 +358,7 @@ const Venue = (props) => {
                         Baroda, Gujarat.
                       </p>
                     </div>
-                    {/* /.Vendor Content */}
+                 
                     <div className="vendor-meta">
                       <div className="vendor-meta-item vendor-meta-item-bordered">
                         <span className="vendor-price">$150</span>
@@ -358,15 +380,15 @@ const Venue = (props) => {
                       </div>
                     </div>
                   </div>
-                  {/* /.Vendor thumbnail */}
+               
                 </div>
-              </div>
-              <div className="item">
+              </div> */}
+              {/* <div className="item">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="vendor-thumbnail">
-                    {/* Vendor thumbnail */}
+                   
                     <div className="vendor-img zoomimg">
-                      {/* Vendor img */}
+                   
                       <a href="#">
                         <img
                           src="images/vendor-img-3.jpg"
@@ -380,9 +402,9 @@ const Venue = (props) => {
                         </a>
                       </div>
                     </div>
-                    {/* /.Vendor img */}
+                 
                     <div className="vendor-content">
-                      {/* Vendor Content */}
+                      
                       <h2 className="vendor-title">
                         <a href="#" className="title">
                           Wedding Venue Title Name
@@ -395,7 +417,7 @@ const Venue = (props) => {
                         Bharuch, Gujarat.
                       </p>
                     </div>
-                    {/* /.Vendor Content */}
+                    
                     <div className="vendor-meta">
                       <div className="vendor-meta-item vendor-meta-item-bordered">
                         <span className="vendor-price">$150</span>
@@ -417,15 +439,15 @@ const Venue = (props) => {
                       </div>
                     </div>
                   </div>
-                  {/* /.Vendor thumbnail */}
+                 
                 </div>
-              </div>
-              <div className="item">
+              </div> */}
+              {/* <div className="item">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="vendor-thumbnail">
-                    {/* Vendor thumbnail */}
+                    
                     <div className="vendor-img zoomimg">
-                      {/* Vendor img */}
+                    
                       <a href="#">
                         <img
                           src="images/vendor-img-2.jpg"
@@ -439,9 +461,9 @@ const Venue = (props) => {
                         </a>
                       </div>
                     </div>
-                    {/* /.Vendor img */}
+                   
                     <div className="vendor-content">
-                      {/* Vendor Content */}
+                     
                       <h2 className="vendor-title">
                         <a href="#" className="title">
                           Wedding Venue Title Name
@@ -454,7 +476,7 @@ const Venue = (props) => {
                         Morbi, Gujarat.
                       </p>
                     </div>
-                    {/* /.Vendor Content */}
+                    
                     <div className="vendor-meta">
                       <div className="vendor-meta-item vendor-meta-item-bordered">
                         <span className="vendor-price">$150</span>
@@ -476,9 +498,9 @@ const Venue = (props) => {
                       </div>
                     </div>
                   </div>
-                  {/* /.Vendor thumbnail */}
+                 
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

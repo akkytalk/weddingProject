@@ -468,8 +468,8 @@ function MyListingItems(props) {
                             className="form-control w-100"
                             required
                           >
-                            <option value="false">inactive</option>
-                            <option value="true">active</option>
+                            <option value={0}>inactive</option>
+                            <option value={1}>active</option>
                           </Field>
                         </InputGroup>
                       </FormGroup>

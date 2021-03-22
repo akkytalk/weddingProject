@@ -12,7 +12,7 @@ export const reviewSetData = (review) => {
 export const reviewFailData = (error) => {
   return {
     type: actionType.REVIEW_FAIL_DATA,
-    error:error
+    error: error,
   };
 };
 
@@ -42,7 +42,7 @@ export const deleteReview = (id) => {
         .delete(`feedbacks/${id}`)
         .then(() => {
           console.log("swal");
-          swal("Successfully Deleted Booking!").then(() => {
+          swal("Successfully Deleted Reviews!").then(() => {
             window.location.reload();
           });
         })
@@ -60,7 +60,7 @@ export const postReviewDataStart = () => {
 export const postReviewDataFail = (error) => {
   return {
     type: actionType.POST_REVIEW_DATA_FAIL,
-    error: error
+    error: error,
   };
 };
 
@@ -73,7 +73,7 @@ export const postReviewData = (user) => {
       .post("feedbacks", user)
       .then(() => {
         console.log("swal");
-        swal("Successfully Created My Booking!").then(() => {
+        swal("Successfully Added Reviews!").then(() => {
           window.location.reload();
         });
       })

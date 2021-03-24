@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import * as actions from "../../reduxStore/actions/index";
 const HeroSecton = (props) => {
@@ -31,11 +32,17 @@ const HeroSecton = (props) => {
                 </div>
                 {/* /.search-block */}
                 {/* search-form */}
-                <div className="search-form">
-                  <form className="form-row">
+                <div className="search-form" style={{ width: "200px" }}>
+                  {/* <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> */}
+                  <Link to="/vendorprofile">
+                    <button className="btn btn-default btn-block">
+                      Explore More
+                    </button>
+                  </Link>
+                  {/* </div> */}
+                  {/* <form className="form-row">
                     <div className="col-xl-5 col-lg-4 col-md-4 col-sm-12 col-12">
-                      {/* select */}
-
+                     
                       <select className="nice-select wide">
                         <option value="">Vendor Type</option>
                         {props.vendortype.map((ventype, index) => (
@@ -44,7 +51,7 @@ const HeroSecton = (props) => {
                           </option>
                         ))}
                       </select>
-                      {/* <select className="nice-select wide ">
+                      <select className="nice-select wide ">
                         <option value="Venue Type">Vendor Type</option>
                         <option value="Venue">Venue</option>
                         <option value="Florist">Florist</option>
@@ -52,23 +59,23 @@ const HeroSecton = (props) => {
                         <option value="Photographer">Photographer</option>
                         <option value="Catering">Catering</option>
                         <option value="Dress">Dress</option>
-                      </select> */}
+                      </select>
                     </div>
                     <div className="col-xl-5 col-lg-4 col-md-4 col-sm-12 col-12">
-                      {/* select */}
+                      
                       <select className="nice-select wide ">
                         <option value="" data-display="Goa">
                           Select
                         </option>
                         <option value="Goa">Goa</option>
-                        {/* <option value="Surat">Surat</option>
+                        <option value="Surat">Surat</option>
                         <option value="Rajkot">Rajkot</option>
                         <option value="Vadodara">Vadodara</option>
                         <option value="Vapi">Vapi</option>
-                        <option value="Bhavnagar">Bhavnagar</option> */}
+                        <option value="Bhavnagar">Bhavnagar</option>
                       </select>
                     </div>
-                    {/* button */}
+                    
                     <div className="col-xl-2 col-lg-4 col-md-4 col-sm-12 col-12">
                       <button
                         className="btn btn-default btn-block"
@@ -77,7 +84,7 @@ const HeroSecton = (props) => {
                         Search
                       </button>
                     </div>
-                  </form>
+                  </form> */}
                 </div>
                 {/* /.search-form */}
               </div>

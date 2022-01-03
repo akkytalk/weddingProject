@@ -324,21 +324,25 @@ function ReviewData(props) {
           </thead>
           <tbody>
             {props.review?.length > 0 ? (
-              props.review?.map((user) => (
-                <tr key={user.id}>
-                  {/* <td>{user.id}</td> */}
-                  <td>{user?.user?.name}</td>
-                  <td>{user.review}</td>
-                  {/* <td>{user.booking_amount}</td>
+              props.review
+                ?.filter(
+                  (user) => user.user?.id == props.vendorLogin.vendor?.id
+                )
+                .map((user) => (
+                  <tr key={user.id}>
+                    {/* <td>{user.id}</td> */}
+                    <td>{user?.user?.name}</td>
+                    <td>{user.review}</td>
+                    {/* <td>{user.booking_amount}</td>
                   <td>{user.advance_amount}</td> */}
-                  {/* <td>{user.remarks}</td>
+                    {/* <td>{user.remarks}</td>
                   <td>{user.reference}</td>
                   <td>{user.menu}</td> */}
-                  {/* <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
+                    {/* <td>{user.morning_status == 1 ? "booked" : "not booked"}</td>
                   <td>{user.night_status == 1 ? "booked" : "not booked"}</td> */}
 
-                  <td className="d-flex">
-                    {/* <button
+                    <td className="d-flex">
+                      {/* <button
                       className="btn-info"
                       onClick={() => {
                         props.onEditReviewRow(
@@ -354,7 +358,7 @@ function ReviewData(props) {
                       <i className="fa fa-edit" aria-hidden="true"></i>
                     </button> */}
 
-                    {/* <button
+                      {/* <button
                       className="ml-3"
                       onClick={() => {
                         if (
@@ -371,13 +375,13 @@ function ReviewData(props) {
                         aria-hidden="true"
                       ></i>
                     </button> */}
-                  </td>
-                  {/* <td>
+                    </td>
+                    {/* <td>
                     {" "}
                     <button className="btn-warning btn-sm">Generate</button>
                   </td> */}
-                </tr>
-              ))
+                  </tr>
+                ))
             ) : (
               <tr>
                 <td colSpan={3}>No users</td>
@@ -394,6 +398,8 @@ const mapStateToProps = (state) => {
   return {
     review: state.review.review,
     editVendor: state.vendor.editVendor,
+    vendorLogin: state.vendorLogin,
+
     //review: state.review
   };
 };

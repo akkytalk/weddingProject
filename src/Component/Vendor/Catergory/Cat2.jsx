@@ -77,7 +77,7 @@ const Cat2 = (props) => {
                               <div className="vendor-img">
                                 {/* Vendor img */}
                                 <Link to={`/venuedetail/${ven.id}`}>
-                                  <div className="zoomimg">
+                                  <div className="zoom-img">
                                     <img
                                       src={
                                         ven?.photographs
@@ -89,14 +89,14 @@ const Cat2 = (props) => {
                                     />
                                   </div>
                                 </Link>
-                                <div className="wishlist-sign">
+                                {/* <div className="wishlist-sign">
                                   <Link
                                     // to="/samplepage"
                                     className="btn-wishlist"
                                   >
                                     <i className="fa fa-heart" />
                                   </Link>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                             {/* /.Vendor img */}
@@ -329,7 +329,7 @@ const Cat2 = (props) => {
                     
                   </div> */}
                   {/* paginations */}
-                  <div className="pagination">
+                  {/* <div className="pagination">
                     <nav aria-label="Page navigation example">
                       <ul className="pagination">
                         <li className="page-item">
@@ -359,11 +359,11 @@ const Cat2 = (props) => {
                         </li>
                       </ul>
                     </nav>
-                  </div>
+                  </div> */}
                   {/* /.paginations */}
                 </div>
                 {/* sidebar-section */}
-                {/* <div className="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+                <div className="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
                   <div className="filter-form">
                     <form className="form-row">
                       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -401,10 +401,9 @@ const Cat2 = (props) => {
                         </select>
                       </div>
                       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb20">
-                       
                         <div className="aminities">
                           <h3 className="widget-title"> Amenities</h3>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -419,7 +418,7 @@ const Cat2 = (props) => {
                               Groom Lounge
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -434,7 +433,7 @@ const Cat2 = (props) => {
                               Bridal Suite
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -448,7 +447,7 @@ const Cat2 = (props) => {
                               Table and chairs
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -463,7 +462,7 @@ const Cat2 = (props) => {
                               Get Ready Rooms
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -477,7 +476,7 @@ const Cat2 = (props) => {
                               Event Rentals
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -491,7 +490,7 @@ const Cat2 = (props) => {
                               Outside Vendors
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -506,7 +505,7 @@ const Cat2 = (props) => {
                               Bar Services
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -521,7 +520,7 @@ const Cat2 = (props) => {
                               Catering Services
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -536,7 +535,7 @@ const Cat2 = (props) => {
                               Clean Up
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -550,7 +549,7 @@ const Cat2 = (props) => {
                               Event Planner
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -564,7 +563,7 @@ const Cat2 = (props) => {
                               Wifi
                             </label>
                           </div>
-                          
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -578,7 +577,7 @@ const Cat2 = (props) => {
                               Pet Friendly
                             </label>
                           </div>
-                         
+
                           <div className="custom-control custom-checkbox">
                             <input
                               type="checkbox"
@@ -593,7 +592,6 @@ const Cat2 = (props) => {
                             </label>
                           </div>
                         </div>
-                       
                       </div>
                       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <button
@@ -605,7 +603,7 @@ const Cat2 = (props) => {
                       </div>
                     </form>
                   </div>
-                </div> */}
+                </div>
                 {/* /.sidebar-section */}
               </div>
             </div>

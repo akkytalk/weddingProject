@@ -83,10 +83,10 @@ function RequestData(props) {
     //<div className="container-fluid">
     <Card>
       <CardHeader className="bg-warning text-white">
-        <strong>My Booking</strong>
-        <Button className="btn-success  float-right" onClick={toggle}>
+        <strong>Request Quotes</strong>
+        {/* <Button className="btn-success  float-right" onClick={toggle}>
           Add Booking
-        </Button>
+        </Button> */}
         <Modal className="modal-info modal-lg" isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Add New Booking</ModalHeader>
           <ModalBody>

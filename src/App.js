@@ -33,6 +33,7 @@ import MyProfile from "./Component/Vendor/Myprofile/MyProfile";
 import Reviews from "./Component/Vendor/Reviews/Reviews";
 import Requests from "./Component/Vendor/Requests/Requests";
 
+
 const { persistor, store } = configureStore();
 
 const App = () => {
@@ -45,12 +46,10 @@ const App = () => {
               <Route exact path="/" component={Home} />
               <Route path="/aboutus" component={About} />
               <Route path="/contact" component={Contact} />
-              <Route path="/vendor" component={Form} />
               <Route path="/vendorprofile" component={Cat} />
               <Route path="/venuedetail" exact component={SamplePage} />
               <Route path="/venuedetail/:id" component={SamplePage} />
               <Route path="/login" component={UserLogin} />
-              <Route path="/dashboard" component={Dashboard} />
               <Route path="/vendorlist" component={Listing} />
               <Route path="/gallery" component={Gallery} />
               <Route path="/photos" component={Photo} />
@@ -64,16 +63,19 @@ const App = () => {
               <Route path="/jewles" component={Jewellery} />
               <Route path="/pandit" component={Pandit} />
               <Route path="/mendhi" component={Mendhi} />
-              <Route path="/mylisting" component={MyListing} />
-              <Route path="/mybooking" component={MyBooking} />
-              <Route path="/myprofile" component={MyProfile} />
-              <Route path="/reviews" component={Reviews} />
-              <Route path="/requests" component={Requests} />
 
               <Route path="/cat/:id" component={Category} />
               <Route path="/cat" exact component={Category} />
               <Route path="/category" exact component={Cat2} />
               <Route path="/category/:id" component={Cat2} />
+              {/* vendor Routes */}
+              <Route path="/vendor" component={Form} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/myprofile" component={MyProfile} />
+              <Route path="/mylisting" component={MyListing} />
+              <Route path="/mybooking" component={MyBooking} />
+              <Route path="/reviews" component={Reviews} />
+              <Route path="/requests" component={Requests} />
             </Switch>
           </HashRouter>
         </PersistGate>

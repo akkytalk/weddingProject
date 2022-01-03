@@ -249,18 +249,22 @@ const Category = (props) => {
                         <div className="user-img">
                           {" "}
                           <img
-                            src={vendorUser.photographs}
+                            src={
+                              vendorUser.photographs
+                                ? `https://uditsolutions.in/mogachetest/storage/app/public/files/${vendorUser.photographs}`
+                                : "https://icon-library.com/images/no-profile-picture-icon/no-profile-picture-icon-21.jpg"
+                            }
                             style={{ height: "50px", width: "50px" }}
-                            alt="star rating jquery"
+                            alt=""
                             className="rounded-circle"
                           />
                         </div>
                         <div className="user-meta">
                           <h5 className="user-name mb-0">
                             {vendorUser.name}{" "}
-                            <span className="user-review-date">
+                            {/* <span className="user-review-date">
                               14 May, 2018
-                            </span>
+                            </span> */}
                           </h5>
                           <div className="given-review">
                             <span className="rated">

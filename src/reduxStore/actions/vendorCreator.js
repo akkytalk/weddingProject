@@ -42,7 +42,7 @@ export const deleteVendor = (id) => {
         .then(() => {
           console.log("swal");
           swal("Successfully Deleted Account Group!").then(() => {
-            window.location.reload();
+            vendorGetData();
           });
         })
         .catch((error) => dispatch(deleteVendorFail()));
@@ -72,7 +72,7 @@ export const postVendorData = (user) => {
       .then(() => {
         console.log("swal");
         swal("Successfully Created Account Group!").then(() => {
-          window.location.reload();
+          vendorGetData();
         });
       })
       .catch((error) => dispatch(postVendorDataFail()));
@@ -97,11 +97,11 @@ export const editVendorSetData = (editVendor) => {
 export const failEditVendor = (error) => {
   return {
     type: actionType.FAIL_EDIT_VENDOR,
-    error: error
+    error: error,
   };
 };
 
-export const editVendorRow = (id, vendor, setVendor) => {
+export const editVendorRow = (id) => {
   return (dispatch) => {
     dispatch(editVendorRowStart());
     // setEditing(true);
@@ -110,9 +110,9 @@ export const editVendorRow = (id, vendor, setVendor) => {
       .then((res) => {
         console.log(res.data, "editing data res");
         // setEditing(res.data);
-        setVendor(res.data);
+        // setVendor(res.data);
         dispatch(editVendorSetData(res.data));
-        console.log("editVendor data from", res.data)
+        // console.log("editVendor data from", res.data);
       })
       .catch((error) => dispatch(failEditVendor(error)));
   };
@@ -136,7 +136,7 @@ export const updateVendorData = (data) => {
       .then(() => {
         console.log("swal");
         swal("Successfully Updated Vendor details!").then(() => {
-          window.location.reload();
+          vendorGetData();
         });
       })
       .catch((error) => {
@@ -145,15 +145,14 @@ export const updateVendorData = (data) => {
   };
 };
 
-export const VendorImageUpload = (data, progress, setProgress) => {
+export const VendorImageUpload = (id, data, progress, setProgress) => {
   return (dispatch) => {
     dispatch(updateVendorDataStart());
-    //setEditing(false);
 
-    const file = data.file;
-    console.log("file", file);
+    console.log("data", data);
+
     axios
-      .put(`updateImage/${data.id}`, file)
+      .put(`updateImage/${id}?_method=PUT`, data)
       .then((res) => {
         const progress = Math.round(
           (res.bytesTransferred / res.totalBytes) * 100
@@ -161,7 +160,7 @@ export const VendorImageUpload = (data, progress, setProgress) => {
         setProgress(progress);
         console.log("swal");
         swal("Successfully Updated Vendor Pic!").then(() => {
-          window.location.reload();
+          vendorGetData();
         });
       })
       .then((data) => console.log("output", data.json()))

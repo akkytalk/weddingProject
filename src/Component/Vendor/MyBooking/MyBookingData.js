@@ -83,7 +83,7 @@ function MyBookingData(props) {
   console.log("editVendor", props.editVendor);
   console.log("mybooking", props.myBooking);
   console.log("User data from ", user);
-  console.log("CurrentUser data from ", currentUser);
+  console.log("CurrentUser data from", currentUser);
 
   return (
     //<div className="container-fluid">
@@ -104,7 +104,7 @@ function MyBookingData(props) {
             >
               <div className="form-row" style={{ fontSize: "12px" }}>
                 <div className="form-group col-md-6">
-                  <label htmlFor="inputPassword4">Customer Name </label>
+                  <label htmlFor="inputPassword4">Customer Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -113,10 +113,17 @@ function MyBookingData(props) {
                     value={
                       !editing
                         ? user.customer_name
-                        : currentUser?.customer_name
-                        ? currentUser?.customer_name
-                        : currentUser?.user_name
+                        : currentUser.user_name
+                        ? currentUser.user_name
+                        : currentUser.customer_name
                     }
+                    // value={
+                    //   !editing
+                    //     ? user.customer_name
+                    //     : currentUser?.customer_name
+                    //     ? currentUser?.customer_name
+                    //     : currentUser?.user_name
+                    // }
                     name="customer_name"
                     onChange={
                       editing ? currentUserInputChange : handleInputChange

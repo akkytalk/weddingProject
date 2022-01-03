@@ -96,16 +96,20 @@ const Photo = (props) => {
                         {/* Vendor img */}
                         <Link to={`/cat/${ven.id}`}>
                           <img
-                            src={ven.photographs}
+                            src={
+                              ven?.photographs
+                                ? `https://uditsolutions.in/mogachetest/storage/app/public/files/${ven.photographs}`
+                                : "https://icon-library.com/images/no-profile-picture-icon/no-profile-picture-icon-21.jpg"
+                            }
                             alt=""
                             className="img-fluid"
                           />
                         </Link>
-                        <div className="wishlist-sign">
+                        {/* <div className="wishlist-sign">
                           <Link to={`/cat/${ven.id}`} className="btn-wishlist">
                             <i className="fa fa-heart" />
                           </Link>
-                        </div>
+                        </div> */}
                       </div>
                       {/* /.Vendor img */}
                       <div className="vendor-content">
@@ -566,7 +570,7 @@ const Photo = (props) => {
               </div>
             </div> */}
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="pagination justify-content-center">
                 <nav aria-label="Page navigation example">
@@ -600,7 +604,7 @@ const Photo = (props) => {
                 </nav>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

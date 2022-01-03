@@ -43,7 +43,7 @@ export const deleteMyBooking = (id) => {
         .then(() => {
           console.log("swal");
           swal("Successfully Deleted Booking!").then(() => {
-            window.location.reload();
+            dispatch(myBookingGetData());
           });
         })
         .catch((error) => dispatch(deleteMyBookingFail()));
@@ -74,7 +74,7 @@ export const postMyBookingData = (user) => {
       .then(() => {
         console.log("swal");
         swal("Successfully Added Booking!").then(() => {
-          window.location.reload();
+          dispatch(myBookingGetData());
         });
       })
       .catch((error) => dispatch(postMyBookingDataFail(error)));
@@ -105,6 +105,7 @@ export const editMyBookingRow = (
   return (dispatch) => {
     dispatch(editMyBookingRowStart());
     setEditing(true);
+    console.log("id", id);
     axios
       .get(`transactions/${id}`)
       .then((res) => {
@@ -112,9 +113,9 @@ export const editMyBookingRow = (
         setEditing(res.data);
         setCurrentUser({
           id: res.data.id,
-          vendor_name: res.data.vendor.name,
-          vendor_type_name: res.data.vendor_type.name,
-          user_name: res.data.user.name,
+          // vendor_name: res.data.vendor.name,
+          // vendor_type_name: res.data.vendor_type.name,
+          user_name: res.data.user?.name,
           customer_name: res.data.customer_name,
           booking_date: res.data.booking_date,
           booking_amount: res.data.booking_amount,
@@ -122,11 +123,13 @@ export const editMyBookingRow = (
           remarks: res.data.remarks,
           reference: res.data.reference,
           menu: res.data.menu,
+          phone: res.data.phone,
           morning_status: res.data.morning_status,
           night_status: res.data.night_status,
         });
+        // console.log("setCurrent user from editMyBookingData", currentUser);
       })
-      .catch((error) => dispatch(failEditMyBooking(error)));
+      .catch((error) => console.log(error));
   };
 };
 
@@ -153,7 +156,7 @@ export const updateMyBookingData = (
       .then(() => {
         console.log("swal");
         swal("Successfully Updated MyBooking details!").then(() => {
-          window.location.reload();
+          dispatch(myBookingGetData());
         });
       })
       .catch((error) => {

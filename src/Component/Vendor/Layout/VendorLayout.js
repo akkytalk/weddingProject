@@ -1,26 +1,24 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { removeVendorLogin } from "../../../reduxStore/actions";
 import mogache from "../../../Assets/Images/mogache.jpeg";
-import RequestData from "./RequestData";
-import VendorHeader from "../Layout/Header/VendorHeader";
-import Sidebar from "../Layout/Sidebar/Sidebar";
+import { useSelector } from "react-redux";
+import VendorHeader from "./Header/VendorHeader";
+import Sidebar from "./Sidebar/Sidebar";
 
-const Requests = (props) => {
+function VendorLayout(props) {
+  const vendorLogin = useSelector((state) => state.vendorLogin);
   const handleLogout = async () => {
     await props.removeVendorLogin();
   };
 
-  console.log("props.vendorLogin?.vendorLogin", props.vendorLogin);
-
   if (props.vendorLogin?.vendorLogin.length === 0) {
     return <Redirect to={"/vendor"} />;
-  } else if (!props.vendorLogin?.vendorLogin.access_token) {
+  } else if (props.vendorLogin?.vendorLogin?.success?.token) {
     return (
       <Fragment>
-        <div>
+        <div className="wrapper">
           <VendorHeader />
           <div className="navbar-expand-lg">
             <button
@@ -31,19 +29,12 @@ const Requests = (props) => {
               <span id="icon-toggle" className="fa fa-bars" />
             </button>
           </div>
-          <div className="dashboard-wrapper">
-            <Sidebar />
-            <div className="dashboard-content">
-              <RequestData />
-            </div>
-          </div>
+          <Sidebar />
         </div>
       </Fragment>
     );
-  } else {
-    return <div>hello</div>;
   }
-};
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -57,4 +48,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Requests);
+export default connect(mapStateToProps, mapDispatchToProps)(VendorLayout);

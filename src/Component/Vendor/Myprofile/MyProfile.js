@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -10,8 +10,13 @@ import mogache from "../../../Assets/Images/mogache.jpeg";
 import "./MyProfile.css";
 
 import { Button } from "reactstrap";
-import { VendorImageUpload } from "../../../reduxStore/actions/vendorCreator";
+import {
+  editVendorRow,
+  VendorImageUpload,
+} from "../../../reduxStore/actions/vendorCreator";
 import axios from "../../../axios";
+import VendorHeader from "../Layout/Header/VendorHeader";
+import Sidebar from "../Layout/Sidebar/Sidebar";
 
 const MyProfile = (props) => {
   const handleLogout = async () => {
@@ -21,65 +26,45 @@ const MyProfile = (props) => {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState({});
 
-  let formData = new FormData();
+  const [vendor, setVendor] = useState([]);
+
+  useEffect(() => {
+    let id = props.vendorLogin?.vendorLogin?.vendor?.id;
+    props.editVendorRow(id);
+  }, []);
+
   const handleChange = (e) => {
     let files = e.target.files || e.dataTransfer.files;
-    if (!files.length)
-            return;
-    console.log("e.target.files[0]",files[0]);
-    
-      setImage(files[0]);
-    
+    if (!files.length) return;
+    console.log("e.target.files[0]", files[0]);
 
-    // let images = e.target.files;
-    // console.log("test1", images[0]);
-
-    // // fd.append("file", images[0]);
-    // fd = { ...fd, file: images[0] };
-    // setImage(fd.file);
-    // // image.append(fd);
-    // iz
-    // console.log("images", image);
+    setImage(files[0]);
   };
-
-
- const createImage = (file) => {
-    let reader = new FileReader();
-    reader.onload = (e) => {
-      
-      setImage(e.target.result)
-      
-      
-    };
-    reader.readAsDataURL(file);
-  }
-
 
   async function handleUpload(e) {
     e.preventDefault();
-      
-    console.log('images 60', image);
 
-     formData = {file:image}
+    console.log("images 60", image);
+    const data = new FormData();
 
-    const id = props.editVendor.id;
+    const id = props.editVendor?.id;
+    data.append("file", image);
+    // data.append("id", id);
 
-    console.log('id', id);
+    console.log("data from myprofile", data);
+    // return props.VendorImageUpload(data, progress, setProgress);
 
-
-    return  axios.post(`updateImage/${id}?_method=PUT`, formData)
-    .then(response => console.log(response))
-    .catch((error) => {
-      console.log(error.response);
-    });
-    // let data = {
-    //   id: props.editVendor?.id,
-    //   file: fd.file,
-    // };
-  //  console.log("data 31", data);
-   // props.VendorImageUpload(data, progress, setProgress);
+    return axios
+      .post(`updateImage/${id}?_method=PUT`, data)
+      .then((response) => {
+        props.editVendorRow(id, vendor, setVendor);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   }
-  console.log("props.editVendor", props.editVendor);
+  console.log("props.editVendor", props.editVendor?.photographs);
 
   if (props.vendorLogin?.vendorLogin.length === 0) {
     return <Redirect to={"/vendor"} />;
@@ -87,220 +72,7 @@ const MyProfile = (props) => {
     return (
       <Fragment>
         <div>
-          <div className="dashboard-header">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
-                  <div className="header-logo">
-                    <Link to="/">
-                      <img
-                        src={mogache}
-                        style={{
-                          maxWidth: "15%",
-                          borderRadius: "30px",
-                        }}
-                        alt="Weddings"
-                      />
-                    </Link>
-                  </div>
-                </div>
-                <div className="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                  <nav className="navbar navbar-expand-lg float-right db-nav-list">
-                    <div>
-                      <ul className="navbar-nav">
-                        <li className="nav-item dropdown dropleft notification ">
-                          <a
-                            className="nav-link dropdown-toggle"
-                            href="#"
-                            id="navbarDropdownMenuLink2"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <span className="notification-icon">
-                              {" "}
-                              <i className="fas fa-bell" />
-                            </span>
-                            <span className="user-vendor-name" />
-                          </a>
-                          <ul
-                            className="dropdown-menu"
-                            aria-labelledby="navbarDropdownMenuLink2"
-                          >
-                            <li>
-                              <div className="notification-title">
-                                {" "}
-                                Notification
-                              </div>
-                              <div className="notification-list">
-                                <div className="list-group">
-                                  <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action active"
-                                  >
-                                    <div className="notification-info">
-                                      <div className="notification-list-user-img">
-                                        <img
-                                          src="images/avatar-2.jpg"
-                                          alt=""
-                                          className="user-avatar-md rounded-circle"
-                                        />
-                                      </div>
-                                      <div className="notification-list-user-block">
-                                        <span className="notification-list-user-name">
-                                          Jeremy Rakestraw
-                                        </span>
-                                        accepted your invitation to join the
-                                        team.
-                                        <div className="notification-date">
-                                          2 min ago
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action"
-                                  >
-                                    <div className="notification-info">
-                                      <div className="notification-list-user-img">
-                                        <img
-                                          src="images/avatar-3.jpg"
-                                          alt=""
-                                          className="user-avatar-md rounded-circle"
-                                        />
-                                      </div>
-                                      <div className="notification-list-user-block">
-                                        <span className="notification-list-user-name">
-                                          John Deo
-                                        </span>
-                                        is now following you
-                                        <div className="notification-date">
-                                          2 days ago
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action"
-                                  >
-                                    <div className="notification-info">
-                                      <div className="notification-list-user-img">
-                                        <img
-                                          src="images/avatar-4.jpg"
-                                          alt=""
-                                          className="user-avatar-md rounded-circle"
-                                        />
-                                      </div>
-                                      <div className="notification-list-user-block">
-                                        <span className="notification-list-user-name">
-                                          Monaan Pechi
-                                        </span>{" "}
-                                        is watching your main repository
-                                        <div className="notification-date">
-                                          2 min ago
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action"
-                                  >
-                                    <div className="notification-info">
-                                      <div className="notification-list-user-img">
-                                        <img
-                                          src="images/avatar-4.jpg"
-                                          alt=""
-                                          className="user-avatar-md rounded-circle"
-                                        />
-                                      </div>
-                                      <div className="notification-list-user-block">
-                                        <span className="notification-list-user-name">
-                                          Jessica Caruso
-                                        </span>
-                                        accepted your invitation to join the
-                                        team.
-                                        <div className="notification-date">
-                                          2 min ago
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </a>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="list-footer">
-                                {" "}
-                                <a href="#">View all notifications</a>
-                              </div>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="nav-item dropdown dropleft user-vendor ">
-                          <a
-                            className="nav-link dropdown-toggle"
-                            href="#"
-                            id="navbarDropdownMenuLink"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <span className="user-icon">
-                              {" "}
-                              <img
-                                src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
-                                style={{ width: "50px", height: "40px" }}
-                                alt=""
-                                className="rounded-circle mb10"
-                              />
-                            </span>
-                            <span className="user-vendor-name">
-                              {props.vendorLogin?.vendorLogin?.vendor?.name}
-                            </span>
-                          </a>
-                          <div
-                            className="dropdown-menu"
-                            aria-labelledby="navbarDropdownMenuLink"
-                          >
-                            <Link className="dropdown-item" to="/dashboard">
-                              Dashboard
-                            </Link>
-                            <Link className="dropdown-item" to="/mylisting">
-                              {" "}
-                              My Listed Item
-                            </Link>
-                            <Link className="dropdown-item" to="/mybooking">
-                              My Booking
-                            </Link>
-                            <Link className="dropdown-item" to="/requests">
-                              Request Quotes
-                            </Link>
-                            <Link className="dropdown-item" to="/reviews">
-                              Reviews{" "}
-                            </Link>
-                            <Link className="dropdown-item" to="/myprofile">
-                              My Profile{" "}
-                            </Link>
-                            <Link
-                              onClick={() => handleLogout()}
-                              className="dropdown-item"
-                            >
-                              Log Out
-                            </Link>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
+          <VendorHeader />
           <div className="navbar-expand-lg">
             <button
               className="navbar-toggler"
@@ -311,84 +83,7 @@ const MyProfile = (props) => {
             </button>
           </div>
           <div className="dashboard-wrapper">
-            <div className="dashboard-sidebar offcanvas-collapse">
-              <div className="vendor-user-profile">
-                <div className="vendor-profile-img">
-                  <img
-                    src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
-                    alt=""
-                    className="rounded-circle"
-                    style={{ width: "80px", height: "80px" }}
-                  />
-                </div>
-                <h3 className="vendor-profile-name">
-                  {props.vendorLogin?.vendorLogin?.vendor?.name}
-                </h3>
-                <Link to="/myprofile" className="edit-link">
-                  edit profile
-                </Link>
-              </div>
-              <div className="dashboard-nav">
-                <ul className="list-unstyled">
-                  <li>
-                    <Link to="/dashboard">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-compass" />
-                      </span>
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/mylisting">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-list-alt" />{" "}
-                      </span>{" "}
-                      My Listed Item{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/mybooking">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-calculator" />
-                      </span>
-                      My Booking
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/requests">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-edit" />
-                      </span>
-                      Request Quotes
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/reviews">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-comments" />
-                      </span>
-                      Reviews{" "}
-                    </Link>
-                  </li>
-                  <li className="active">
-                    <Link to="/myprofile">
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-user-circle" />
-                      </span>
-                      My Profile{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link onClick={() => handleLogout()}>
-                      <span className="dash-nav-icon">
-                        <i className="fas fa-sign-out-alt" />
-                      </span>
-                      Logout{" "}
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <Sidebar />
             <div className="dashboard-content">
               <div className="container-fluid">
                 <div className="row">
@@ -404,7 +99,7 @@ const MyProfile = (props) => {
                 <div className="col">
                   <div className="image-upload">
                     <img
-                      src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.vendorLogin?.vendorLogin?.vendor?.photographs}`}
+                      src={`https://uditsolutions.in/mogachetest/storage/app/public/files/${props.editVendor?.photographs}`}
                       alt=""
                     />
                   </div>
@@ -415,16 +110,11 @@ const MyProfile = (props) => {
                       max="100"
                     />
 
-                    {/* <input
-                      type="file"
-                      onChange={handleChange}
-                      formEncType="multipart/form-data"
-                    /> */}
-                    <form onSubmit={handleUpload} >
+                    <form onSubmit={handleUpload} encType="multipart/form-data">
                       <input
                         type="file"
                         name="file"
-                        label="Product Picture"
+                        label="Profile Picture"
                         onChange={handleChange}
                         multiple
                       />
@@ -454,8 +144,11 @@ const mapDispatchToProps = (dispatch) => ({
   removeVendorLogin: () => {
     dispatch(removeVendorLogin());
   },
-  VendorImageUpload: (data, progress, setProgress) => {
-    dispatch(VendorImageUpload(data, progress, setProgress));
+  VendorImageUpload: (id, data, progress, setProgress) => {
+    dispatch(VendorImageUpload(id, data, progress, setProgress));
+  },
+  editVendorRow: (id) => {
+    dispatch(editVendorRow(id));
   },
 });
 
